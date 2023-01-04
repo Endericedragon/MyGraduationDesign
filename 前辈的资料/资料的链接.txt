@@ -1,0 +1,2 @@
+万琦玲前辈的复现手册：https://www.notion.so/225c3b87a046419b8f08c4584489f78a
+我的复现过程文档和参考的代码（包含万琦玲前辈的代码和文档，可供参考）：https://github.com/Endericedragon/ReproducingBlockchain
