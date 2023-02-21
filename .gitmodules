@@ -1,0 +1,3 @@
+[submodule "substrate-docs"]
+	path = substrate-docs
+	url = git@github.com:Endericedragon/substrate-docs.git
