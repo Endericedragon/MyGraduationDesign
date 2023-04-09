@@ -232,55 +232,48 @@ if (eth.getBranchBlockByRegion("w1") === null) {
 
 \end{lstlisting}
 
+\section{外语文献翻译工作}
+
+由于需要考察将基于Go-Ethereum实现的树状多链移植到Substrate上的可行性，笔者选择了翻译Substrate的英文官方文档，并完成了5000词的额定工作量。译文和对应的原文已上传至北京理工大学毕业设计管理系统。
+
 \chapter{现有问题}
+
+截至目前，笔者将进行工作历程中遇到的困难和挑战归结为以下几点：
+\begin{enumerate}
+  \item 思维模式转变不及时，未能很好地从中心化的普通网络式思维切换到去中心化的区块链式思维
+  \item 对一些难度较大的工作具有畏难情绪，（例如阅读树状区块链的实现源代码），导致进度不及预期；
+  \item 时间安排不够妥当，对于独立的各项事务应当并行安排工作时间，以节省总时间；
+  \item 沟通不及时，和实验室中有工作内容相关的同学、前辈、老师沟通不够顺畅，导致获取、提供帮助，和同步进展不够及时；
+
+\end{enumerate}
 
 \chapter{后续工作}
 
+结合目前的工作状况和待完成的任务情况，笔者如此安排日后的工作：
 
-\section{二级题目}
-% 这里插入一个参考文献，仅作参考
-
-\subsection{三级题目}
-
-正文……\cite{yuFeiJiZongTiDuoXueKeSheJiYouHuaDeXianZhuangYuFaZhanFangXiang2008}……\cite{Hajela2012Application}
-
-\textcolor{blue}{正文部分：宋体、小四；正文行距：22磅；间距段前段后均为0行。阅后删除此段。}
-
-\textcolor{blue}{图、表居中，图注标在图下方，表头标在表上方，宋体、五号、居中，1.25倍行距，间距段前段后均为0行，图表与上下文之间各空一行。阅后删除此段。}
-
-\textcolor{blue}{\underline{\underline{图-示例：（阅后删除此段）}}}
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[]{images/bit_logo.png}
-  \caption{标题序号}\label{标题序号} % label 用来在文中索引
-\end{figure}
-
-\textcolor{blue}{\underline{\underline{表-示例：（阅后删除此段）}}}
 % 三线表
 \begin{table}[htbp]
   \linespread{1.5}
   \zihao{5}
   \centering
   \caption{统计表}\label{统计表}
-  \begin{tabular}{*{5}{>{\centering\arraybackslash}p{2cm}}} \toprule
-    项目    & 产量    & 销量    & 产值   & 比重    \\ \hline
-    手机    & 1000  & 10000 & 500  & 50\%  \\
-    计算机   & 5500  & 5000  & 220  & 22\%  \\
-    笔记本电脑 & 1100  & 1000  & 280  & 28\%  \\
-    合计    & 17600 & 16000 & 1000 & 100\% \\ \bottomrule
-    \end{tabular}
+  \begin{tabular}{*{5}{>{\centering\arraybackslash}p{6cm}}} \toprule
+    预计完成日期 & 工作内容                                         \\ \hline
+    4月16日      & 完成双账号资产转移实验                           \\
+    4月20日      & 完成更大规模的资产转移实验，与出租车调度系统对接，收集实验数据 \\
+    4月30日      & 探究Go-Ethereum的部分实现                        \\
+    5月20日      & 撰写毕业论文                                     \\ \bottomrule
+  \end{tabular}
 \end{table}
 
-\textcolor{blue}{公式标注应于该公式所在行的最右侧。对于较长的公式只可在符号处（+、-、*、/、$\leqslant$ $\geqslant$ 等）转行。在文中引用公式时，在标号前加“式”，如式（1-2）。阅后删除此
-段。}
+% \textcolor{blue}{公式标注应于该公式所在行的最右侧。对于较长的公式只可在符号处（+、-、*、/、$\leqslant$ $\geqslant$ 等）转行。在文中引用公式时，在标号前加“式”，如式（1-2）。阅后删除此
+%   段。}
 
-\textcolor{blue}{公式-示例：（阅后删除此段）}
-% 公式上下不要空行，置于同一个段落下即可，否则上下距离会出现高度不一致的问题
-\begin{equation}
-    LRI=1\ ∕\ \sqrt{1+{\left(\frac{{\mu }_{R}}{{\mu }_{s}}\right)}^{2}{\left(\frac{{\delta }_{R}}{{\delta }_{s}}\right)}^{2}}
-\end{equation}
-
-\subsubsection{生僻字}
+% \textcolor{blue}{公式-示例：（阅后删除此段）}
+% % 公式上下不要空行，置于同一个段落下即可，否则上下距离会出现高度不一致的问题
+% \begin{equation}
+%   LRI=1\ ∕\ \sqrt{1+{\left(\frac{{\mu }_{R}}{{\mu }_{s}}\right)}^{2}{\left(\frac{{\delta }_{R}}{{\delta }_{s}}\right)}^{2}}
+% \end{equation}
 
 % 一个可能无法正常显示的生僻字
 % 一个可能无法正常显示的生僻字: 彧。下文注释中，介绍了如何通过自定义字体来显示生僻字。
