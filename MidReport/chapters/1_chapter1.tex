@@ -38,9 +38,9 @@
 首先，需要构建这个节点。
 
 \begin{enumerate}
-  \item 使用附录A中的配置文件，初始化节点；
-  \item 启动节点，并指定其rpc端口为8545，以便外部程序与区块链互动；
-  \item 待节点启动之后，记录其enode信息。
+    \item 使用附录A中的配置文件，初始化节点；
+    \item 启动节点，并指定其rpc端口为8545，以便外部程序与区块链互动；
+    \item 待节点启动之后，记录其enode信息。
 \end{enumerate}
 
 一旦节点启动，终端中就会出现JavaScript控制台。此时，可以使用Go-Ethereum的官方文档中记录的各种指令，进行账户创建、解锁账户、启停挖矿、部署或调用合约等操作，与区块链进行交互。在此，笔者使用personal.newAccount("123456")新建了8个密钥均为123456的账户，一部分账号，将在出租车调度系统中承担司机与乘客的角色。
@@ -88,15 +88,15 @@ Contract mined! Address: 0xef00ade84bb560afe4b562bfd4a81300c17ac52f
 合约部署结束后，按照实验室已有的手册进行操作，对客户端系统进行配置，将其中涉及到合约地址和账户公钥的代码更改为实际的合约地址和账户公钥，并上传地图文件，启动调度系统，即可观察到其运行效果。如下展示的分别是司机选择是否接单，和乘客到达目的地时系统的提示：
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.9\linewidth]{images/司机接客.png}
-  \caption{司机接客}\label{司机接客} % label 用来在文中索引
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/司机接客.png}
+    \caption{司机接客}\label{司机接客} % label 用来在文中索引
 \end{figure}
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.9\linewidth]{images/乘客抵达.png}
-  \caption{乘客抵达}\label{乘客抵达} % label 用来在文中索引
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/乘客抵达.png}
+    \caption{乘客抵达}\label{乘客抵达} % label 用来在文中索引
 \end{figure}
 
 \section{部分重构优化工作}
@@ -240,30 +240,39 @@ if (eth.getBranchBlockByRegion("w1") === null) {
 
 截至目前，笔者将进行工作历程中遇到的困难和挑战归结为以下几点：
 \begin{enumerate}
-  \item 思维模式转变不及时，未能很好地从中心化的普通网络式思维切换到去中心化的区块链式思维
-  \item 对一些难度较大的工作具有畏难情绪，（例如阅读树状区块链的实现源代码），导致进度不及预期；
-  \item 时间安排不够妥当，对于独立的各项事务应当并行安排工作时间，以节省总时间；
-  \item 沟通不及时，和实验室中有工作内容相关的同学、前辈、老师沟通不够顺畅，导致获取、提供帮助，和同步进展不够及时；
+    \item 思维模式转变不及时，未能很好地从中心化的普通网络式思维切换到去中心化的区块链式思维
+    \item 对一些难度较大的工作具有畏难情绪，（例如阅读树状区块链的实现源代码），导致进度不及预期；
+    \item 时间安排不够妥当，对于独立的各项事务应当并行安排工作时间，以节省总时间；
+    \item 沟通不及时，和实验室中有工作内容相关的同学、前辈、老师沟通不够顺畅，导致获取、提供帮助，和同步进展不够及时；
 
 \end{enumerate}
 
 \chapter{后续工作}
 
+如上文所述，截至目前，笔者已经完成了出租车调度系统在普通的物理位置区块链上的复现工作、一部分代码的重构和优化工作以及外文文献翻译工作。为完成任务书中的全部任务，在后续工作中需要完成以下任务：
+
+\begin{enumerate}
+    \item 使用两个子链和一个父链构建区块链网络，并于其上完成跨链转账实验，以获取转账的时间开销数据
+    \item 将出租车调度系统移植到树状区块链上，验证其可用性，并在单子链情况和一个父链四个子链的分区情况下进行出租车调度系统对比实验，对比二者在响应司乘请求的耗时、链上数据量和吞吐量的异同
+    \item 调研Substrate这一新兴的区块链工具组，了解利用它构建区块链，并于其上部署并调用智能合约的方法，并将出租车调度系统所用的部分合约移植到一个测试链上，验证调度系统移植的可行性
+\end{enumerate}
+
 结合目前的工作状况和待完成的任务情况，笔者如此安排日后的工作：
 
 % 三线表
 \begin{table}[htbp]
-  \linespread{1.5}
-  \zihao{5}
-  \centering
-  \caption{统计表}\label{统计表}
-  \begin{tabular}{*{5}{>{\centering\arraybackslash}p{6cm}}} \toprule
-    预计完成日期 & 工作内容                                         \\ \hline
-    4月16日      & 完成双账号资产转移实验                           \\
-    4月20日      & 完成更大规模的资产转移实验，与出租车调度系统对接，收集实验数据 \\
-    4月30日      & 探究Go-Ethereum的部分实现                        \\
-    5月20日      & 撰写毕业论文                                     \\ \bottomrule
-  \end{tabular}
+    \linespread{1.5}
+    \zihao{5}
+    \centering
+    \caption{统计表}\label{统计表}
+    \begin{tabular}{*{5}{>{\centering\arraybackslash}p{6cm}}} \toprule
+        预计完成日期 & 工作内容                                                                                                       \\ \hline
+        4月10日      & 完成双账号资产转移实验，并收集实验数据                                                                         \\
+        4月13日      & 完成更大规模的资产转移实验，并收集实验数据                                                                     \\
+        4月19日      & 在树状区块链的单子链上运行出租车调度系统，并收集数据；同时，进行Substrate调研                                  \\
+        4月30日      & 完成树状区块链上的单父链四子链的出租车调度实验，并收集数据；同时，完成调度系统的合约从Solidity翻译到ink!的工作 \\
+        5月20日      & 撰写毕业论文                                                                                                   \\ \bottomrule
+    \end{tabular}
 \end{table}
 
 % \textcolor{blue}{公式标注应于该公式所在行的最右侧。对于较长的公式只可在符号处（+、-、*、/、$\leqslant$ $\geqslant$ 等）转行。在文中引用公式时，在标号前加“式”，如式（1-2）。阅后删除此
