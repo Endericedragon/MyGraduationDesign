@@ -20,20 +20,111 @@
 % Compile with: xelatex -> biber -> xelatex -> xelatex
 
 \begin{appendices}
-  附录相关内容…
-
   % 这里示范一下添加多个附录的方法：
   % 使用 \section 来添加一个附录
 
-  \section{\LaTeX 环境的安装}
-  \LaTeX 环境的安装。
+  \section{创世配置文件}
 
-  \section{BIThesis 使用说明}
-  BIThesis 使用说明。
+  \begin{lstlisting}[caption={创世配置文件}, label={lst:创世配置文件}]
+    {
+        "config": {
+            "chainId": 666,
+            "homesteadBlock": 0,
+            "eip150Block": 0,
+            "eip150Hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "eip155Block": 0,
+            "eip158Block": 0,
+            "byzantiumBlock": 0,
+            "constantinopleBlock": 0,
+            "petersburgBlock": 0,
+            "istanbulBlock": 0,
+            "ethash": {}
+        },
+        "nonce": "0x0",
+        "timestamp": "0x5ddf8f3e",
+        "extraData": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "gasLimit": "0xffffffff",
+        "difficulty": "0x20000",
+        "mixHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "coinbase": "0x0000000000000000000000000000000000000000",
+        "alloc": {},
+        "number": "0x0",
+        "gasUsed": "0x0",
+        "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  \end{lstlisting}
 
-  \textcolor{blue}{附录是毕业设计（论文）主体的补充项目，为了体现整篇文章的完整性，写入正文又可能有损于论文的条理性、逻辑性和精炼性，这些材料可以写入附录段，但对于每一篇文章并不是必须的。附录依次用大写正体英文字母 A、B、C……编序号，如附录 A、附录 B。阅后删除此段。}
+  一些关键字段的解释如下：
 
-  \textcolor{blue}{附录正文样式与文章正文相同：宋体、小四；行距：22 磅；间距段前段后均为 0 行。阅后删除此段。}
+  \begin{itemize}
+    \item gasLimit：区块链为防止恶意参与者不停发送交易耗尽服务器资源，往往都对交易进行“收费”。gasLimit字段限制一次交易的最大花费。为保证实验成功，故此处设置得较大。
+    \item difficulty：挖矿难度。难度越低，越容易挖到符合要求的新区块，出块速度也越高。
+    \item alloc：记录链上部分账户的余额等信息。由于该创世配置文件乃是为尚未准备账户的全新区块链所准备，故此项为一个空白的JavaScript对象。
+  \end{itemize}
 
+  \section{合约部署的代码模板}
+
+  \begin{lstlisting}[caption={合约部署代码模板}, label={lst:合约部署代码模板}]
+    abi = JSON.parse("经过压缩转义后的ABI")
+    bytecode = "获得的字节码字符串"
+
+    Contract = web3.eth.contract(abi);
+    web3.eth.estimateGas({data: bytecode})
+    contractInstance = Contract.new({
+        from: web3.eth.accounts[0],
+        data: bytecode,
+        gas: '3000000',
+        position:"w2511111111111",
+        txtime:277001
+      },function (e, contract){
+        console.log(e, contract);
+        if(!e){
+            if(!contract.address) {
+                console.log("Contract transaction send: TransactionHash: " + contract.transactionHash + " waiting to be mined...");
+            } else {
+                console.log("Contract mined! Address: " + contract.address);
+                console.log(contract);
+            }
+        }
+    });
+\end{lstlisting}
+
+  \section{跨链转账测试的数据可视化代码}
+  \begin{lstlisting}[caption={跨链转账测试的数据可视化}, label={lst:跨链转账测试的数据可视化}]
+    import matplotlib.pyplot as plt
+    from matplotlib.axes._axes import Axes
+    from matplotlib.figure import Figure
+    import numpy as np
+
+    plt.style.use('_mpl-gallery')
+
+    # make data
+    times: list[int] = [1683465655]
+    with open("tx_result_w11.txt", "r", encoding="utf-8") as f:
+        times += [int(each.split('\t')[1]) for each in f.readlines()]
+
+    times.sort()
+
+    x = range(len(times) - 1)
+    y = [times[i] - times[i - 1] for i in range(1, len(times))]
+
+    # plot
+    fig, ax = plt.subplots()
+    fig: Figure
+    ax: Axes
+
+    stem = ax.stem(x, y)
+
+    # ax.set(
+    #     xlim=(0, 8), xticks=np.arange(1, 8),
+    #     ylim=(0, 8), yticks=np.arange(1, 8)
+    # )
+
+    for (i, j) in zip(x, y):
+        plt.text(i, j + 0.3, j)
+
+    # ax.bar_label(stem)
+
+    plt.show()
+  \end{lstlisting}
 \end{appendices}
-
