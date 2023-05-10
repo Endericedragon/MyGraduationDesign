@@ -56,7 +56,7 @@
 启动终端，切换至创世配置文件genesis.json所在的目录，随后键入如下指令并执行：
 
 \begin{lstlisting}[caption={初始化区块链}, label={lst:初始化区块链}]
-    geth1 --identity "MyEth" --rpc --rpcaddr 127.0.0.1  --rpcport "8545" --rpccorsdomain "*" --datadir gethdata --port "30303" --nodiscover --rpcapi "eth,net,personal,web3,admin" --networkid 91036 init genesis.json
+geth1 --identity "MyEth" --rpc --rpcaddr 127.0.0.1  --rpcport "8545" --rpccorsdomain "*" --datadir gethdata --port "30303" --nodiscover --rpcapi "eth,net,personal,web3,admin" --networkid 91036 init genesis.json
 \end{lstlisting}
 
 对于其中的关键参数选项解释如下：
@@ -71,7 +71,7 @@
 执行结束后，再执行以下命令，即可启动该区块链：
 
 \begin{lstlisting}[caption={启动区块链}, label={lst:启动区块链}]
-    geth1 --datadir ./gethdata --networkid 91036 --port 30303 --rpc --rpcaddr 127.0.0.1 --rpcport 8545 --rpcapi 'personal,net,eth,web3,admin' --rpccorsdomain='*' --ws --wsaddr='localhost' --wsport 8546 --wsorigins='*' --wsapi 'personal,net,eth,web3,admin' --nodiscover --allow-insecure-unlock --dev.period 1 --syncmode='full' console
+geth1 --datadir ./gethdata --networkid 91036 --port 30303 --rpc --rpcaddr 127.0.0.1 --rpcport 8545 --rpcapi 'personal,net,eth,web3,admin' --rpccorsdomain='*' --ws --wsaddr='localhost' --wsport 8546 --wsorigins='*' --wsapi 'personal,net,eth,web3,admin' --nodiscover --allow-insecure-unlock --dev.period 1 --syncmode='full' console
 \end{lstlisting}
 
 注意其中的syncmode参数选项，其值为'full'。此时，该区块链将仅使用区域索引方法进行加速，而不会使用任何树状区块链的功能特性。
@@ -98,14 +98,14 @@
 
 将两份合约部署到区块链上，即完成树状区块链的部署工作。首先，使用Remix Desktop编译合约，记录编译结果中的ABI字段并进行进行压缩转义，同时记录bytecode（下称字节码）字段。然后，将二者复制入附录B中的代码模板（其中的标识符Contract和contractInstance可以任意修改），将两份编辑好的模板先后复制入正在运行geth1的JavaScript命令行后并点按回车后，合约部署的请求就已经提交至交易池。开始挖矿并密切观察控制台输出，直至观察到形似以下格式的输出。此即为两份合约各自的合约地址，其顺序与提交合约部署申请的顺序一致：
 
-\begin{lstlisting}[caption={合约地址}, label={lst:合约地址}]
+\begin{verbatim}
     null [object Object]
     Contract mined! Address: 0x23b98f92ceac005e570b6768da377b3abd11012e
     [object Object]
     null [object Object]
     Contract mined! Address: 0xfa6b8f0b92b323c28557faf69da028e33856f6ca
     [object Object]
-\end{lstlisting}
+\end{verbatim}
 
 笔者的部署顺序是：先部署StoreMap，再部署StoreTraffic。因此，地图存储合约的地址即为0x23b98f92ceac005e570b6768da377b3abd11012e，而调度合约地址为0xfa6b8f0b92b323c28557faf69da028e33856f6ca。
 
@@ -212,18 +212,18 @@
 部署完成后的合约可以使用合约地址与其建立交互渠道，并调用合约内定义的方法。在web3.js库的辅助下，与合约进行交互仅需短短数行代码。最小示例如下：
 
 \begin{lstlisting}[caption={合约交互}, label={lst:合约交互}]
-    // 使用web3.js库
-    const Web3 = require('web3');
-    // 使用WebSocket协议连接到区块链，本例中端口号为8546
-    let web3 = new Web3(new Web3.providers.WebsocketProvider("ws://127.0.0.1:8546"));
-    // 部署合约时获得的合约地址
-    let contractAddress = '0x23b98f92ceac005e570b6768da377b3abd11012e';
-    // 编译合约时保存的应用程序二进制接口信息
-    let contractAbi = JSON.parse(fs.readFileSync('./contractAbi.json', 'utf-8'));
-    // 合约实例
-    let contractInstance = new web3.eth.Contract(mapContractAbi, mapContractAddress);
-    // 调用合约中定义的example方法
-    contractInstance.methods.example().then((res) => {/* 处理返回值res */});
+// 使用web3.js库
+const Web3 = require('web3');
+// 使用WebSocket协议连接到区块链，本例中端口号为8546
+let web3 = new Web3(new Web3.providers.WebsocketProvider("ws://127.0.0.1:8546"));
+// 部署合约时获得的合约地址
+let contractAddress = '0x23b98f92ceac005e570b6768da377b3abd11012e';
+// 编译合约时保存的应用程序二进制接口信息
+let contractAbi = JSON.parse(fs.readFileSync('./contractAbi.json', 'utf-8'));
+// 合约实例
+let contractInstance = new web3.eth.Contract(mapContractAbi, mapContractAddress);
+// 调用合约中定义的example方法
+contractInstance.methods.example().then((res) => {/* 处理返回值res */});
 \end{lstlisting}
 
 在进行实验时，若出现难以排查的错误，应首先考虑合约相关错误。综合上述部署步骤，合约相关错误可以从以下几点进行排查：

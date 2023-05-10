@@ -82,10 +82,10 @@
     \item 在代码仓库根目录中启动终端，运行\verb|sh w1_init.sh|指令，启动分支区块链w1，并留意形如\verb|INFO [04-10|20:36:48.833] Started P2P networking self="enode://......"|的输出，记录该双引号包裹的字符串；
     \item 在链w11和链w12的预加载脚本中，替换\verb|admin.addPeer()|方法的参数为上一步中记录的字符串
     \item 另启动两个终端，分别执行启动链w11和链w12的脚本，若观察到形如\begin{verbatim}
-        INFO [04-10|20:54:02.335] Block synchronisation started
-        ---k:aaaaaaaaaaaaw1,v.RegionId:w1,v.Number:1---
-        ---parent.Number:0, branchb.RegionId:w1,ptd:131072---
-        !!commitBranchBlock[aaaaaaaaaaaaw1][1]--[td:262144]success!!
+INFO [04-10|20:54:02.335] Block synchronisation started
+---k:aaaaaaaaaaaaw1,v.RegionId:w1,v.Number:1---
+---parent.Number:0, branchb.RegionId:w1,ptd:131072---
+!!commitBranchBlock[aaaaaaaaaaaaw1][1]--[td:262144]success!!
     \end{verbatim}
           字样，即为子区块链和父区块链同步成功，可以进行下一步骤的实验；
     \item 另启动一个终端，运行\verb|branchnode-remastered.js|脚本。该脚本将监视父区块链w1的日志内容，并根据之运行相应代码，完成转账等操作；
