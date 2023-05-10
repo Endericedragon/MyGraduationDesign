@@ -207,7 +207,9 @@ pub struct AccountData<Balance> {
 }
 \end{lstlisting}
 
-为balances模块新增一个\verb|set_position|方法，允许账户为自己设置地理位置：
+每个模块均可包含一些方法，开发者可调用这些方法修改链上存储的数据，与模块交互。本小节为balances模块新增两个方法：\verb|set_position()|方法和\verb|transfer_with_position()|方法。
+
+首先，为balances模块新增一个\verb|set_position()|方法，允许账户为自己设置地理位置：
 
 \begin{lstlisting}
 #[pallet::call]  // <-- 在pallets/balances/src/lib.rs中全局搜索这行即可找到
@@ -230,11 +232,40 @@ impl<T: Config<I>, I: 'static> Pallet<T, I> {
 }
 \end{lstlisting}
 
-至此，对代码的改动全部结束。以上修改已形成文档\footnote{https://github.com/Endericedragon/substrate-node-template/blob/main/\%E4\%BF\%AE\%E6\%94\%B9\%E8\%AE\%B0\%E5\%BD\%95.md}，以便后人阅读参考。
+其次，添加一个\verb|transfer_with_position()|方法，令转账发起人提供自身位置信息，用以更新它的\verb|position|字段：
+
+\begin{lstlisting}
+#[pallet::call_index(7)]
+#[pallet::weight(T::WeightInfo::transfer())]
+pub fn transfer_with_position(
+    origin: OriginFor<T>,
+    dest: AccountIdLookupOf<T>,
+    #[pallet::compact] value: T::Balance,
+    position: Vec<u8>
+) -> DispatchResultWithPostInfo {
+    let transactor = ensure_signed(origin)?;
+    let dest = T::Lookup::lookup(dest)?;
+    <Self as Currency<_>>::transfer(
+        &transactor,
+        &dest,
+        value,
+        ExistenceRequirement::AllowDeath,
+    )?;
+    Self::try_mutate_account(
+        &transactor,
+        |target, _| {
+            target.position = Geohash::from(position);
+            Ok(().into())
+        }
+    )
+}
+\end{lstlisting}
+
+至此，对代码的改动全部结束。以上修改已形成文档\footnote{https://github.com/Endericedragon/substrate-node-template/blob/main/修改记录.md}，以便后人阅读参考。
 
 \subsection{编译并测试修改结果}
 
-在节点模板根目录中运行\verb|cargo build --release|命令进行编译，确认编译过程无任何错误并结束后，使用5.3节的方法启动测试链并将Web UI连接至测试链上。在导航栏上点击“开发者” - “交易”，选择ALICE账号并按图5-3所示填写交易的各项参数，提交设置位置的交易图中的wx4111b即为目标账户新地理位置的Geohash编码。需要注意的是，5.3.2小节的代码中设置了该字段的限长\verb|GEOHASH_LENGTH|为14，故提交的字符串长度必须小于该限长。
+在节点模板根目录中运行\verb|cargo build --release|命令进行编译，确认编译过程无任何错误并结束后，使用5.3节的方法启动测试链并将Web UI连接至测试链上。在导航栏上点击“开发者” - “交易”，选择ALICE账号并按图5-3所示填写交易的各项参数，以调用balances模块的\verb|set_position()|方法。提交设置位置的交易图中的wx4111b即为目标账户新地理位置的Geohash编码。需要注意的是，5.3.2小节的代码中设置了该字段的限长\verb|GEOHASH_LENGTH|为14，故提交的字符串长度必须小于该限长。
 
 \begin{figure}[htbp]
     \centering
@@ -250,7 +281,23 @@ impl<T: Config<I>, I: 'static> Pallet<T, I> {
     \caption{查询账户信息}\label{查询账户信息} % label 用来在文中索引
 \end{figure}
 
-至此，账户信息中已包含地理位置字段。通过完成树状区块链部分特性在Substrate框架中的实现，本节证明了Substrate具有优秀的可扩展性，也为树状区块链的改进工作指明了方向。
+使用相似的方法，调用balances模块的\verb|transfer_with_position()|方法，令账号ALICE在wx4111c位置处发起转账，如图5-5所示。
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/transWithPos.png}
+    \caption{调用带位置信息的转账方法}\label{调用带位置信息的转账方法} % label 用来在文中索引
+\end{figure}
+
+随后，查询转账发起人ALICE的位置信息，获得图5-6所示的输出。其中，position字段的值0x77783431313163即为ALICE的新位置Geohash编码wx4111c的16进制表示。
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/transWithPosResult.png}
+    \caption{转账发起人位置已更新}\label{转账发起人位置已更新} % label 用来在文中索引
+\end{figure}
+
+至此，账户信息中已包含地理位置字段。通过完成树状区块链部分特性在Substrate框架中的实现，本节工作证明了Substrate具有优秀的可扩展性，也为树状区块链的改进工作指明了方向。
 
 \section{本章小结}
 
