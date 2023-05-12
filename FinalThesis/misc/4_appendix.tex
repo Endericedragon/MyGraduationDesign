@@ -20,12 +20,12 @@
 % Compile with: xelatex -> biber -> xelatex -> xelatex
 
 \begin{appendices}
-  % 这里示范一下添加多个附录的方法：
-  % 使用 \section 来添加一个附录
+    % 这里示范一下添加多个附录的方法：
+    % 使用 \section 来添加一个附录
 
-  \section{创世配置文件}
+    \section{创世配置文件}
 
-  \begin{lstlisting}[caption={创世配置文件}, label={lst:创世配置文件}]
+    \begin{lstlisting}[caption={创世配置文件}, label={lst:创世配置文件}]
     {
         "config": {
             "chainId": 666,
@@ -52,19 +52,19 @@
         "gasUsed": "0x0",
         "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
     }
-  \end{lstlisting}
+    \end{lstlisting}
 
-  一些关键字段的解释如下：
+    一些关键字段的解释如下：
 
-  \begin{itemize}
-    \item gasLimit：区块链为防止恶意参与者不停发送交易耗尽服务器资源，往往都对交易进行“收费”。gasLimit字段限制一次交易的最大花费。为保证实验成功，故此处设置得较大。
-    \item difficulty：挖矿难度。难度越低，越容易挖到符合要求的新区块，出块速度也越高。
-    \item alloc：记录链上部分账户的余额等信息。由于该创世配置文件乃是为尚未准备账户的全新区块链所准备，故此项为一个空白的JavaScript对象。
-  \end{itemize}
+    \begin{itemize}
+        \item gasLimit：区块链为防止恶意参与者不停发送交易耗尽服务器资源，往往都对交易进行“收费”。gasLimit字段限制一次交易的最大花费。为保证实验成功，故此处设置得较大。
+        \item difficulty：挖矿难度。难度越低，越容易挖到符合要求的新区块，出块速度也越高。
+        \item alloc：记录链上部分账户的余额等信息。由于该创世配置文件乃是为尚未准备账户的全新区块链所准备，故此项为一个空白的JavaScript对象。
+    \end{itemize}
 
-  \section{合约部署的代码模板}
+    \section{合约部署的代码模板}
 
-  \begin{lstlisting}[caption={合约部署代码模板}, label={lst:合约部署代码模板}]
+    \begin{lstlisting}[caption={合约部署代码模板}, label={lst:合约部署代码模板}]
     abi = JSON.parse("经过压缩转义后的ABI")
     bytecode = "获得的字节码字符串"
 
@@ -87,10 +87,14 @@
             }
         }
     });
-\end{lstlisting}
+    \end{lstlisting}
 
-  \section{跨链转账测试的数据可视化代码}
-  \begin{lstlisting}[caption={跨链转账测试的数据可视化}, label={lst:跨链转账测试的数据可视化}]
+    \section{跨链转账测试的数据可视化代码}
+    \begin{lstlisting}[
+    caption={跨链转账测试的数据可视化},
+    label={lst:跨链转账测试的数据可视化},
+    morekeywords={import, from, for, in, if, else, and, or, not, with, as}
+    ]
     import matplotlib.pyplot as plt
     from matplotlib.axes._axes import Axes
     from matplotlib.figure import Figure

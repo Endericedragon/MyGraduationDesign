@@ -48,14 +48,14 @@
 
 \section{环境配置}
 
-跨链转账测试的测试环境如下：
+跨链转账测试的测试环境如表3-1所示。
 
 \begin{table}[htbp]
     \linespread{1.5}
     \zihao{5}
     \centering
     \caption{跨链转账测试环境}\label{跨链转账测试环境}
-    \begin{tabular}{*{5}{>{\centering\arraybackslash}p{6cm}}} \toprule
+    \begin{tabular}{r|l} \toprule
         中央处理器 & Intel Core i5-12500H      \\
         图形处理器 & Intel Iris Xe 80EU        \\
         内存    & 24GB                      \\
@@ -65,7 +65,7 @@
     \end{tabular}
 \end{table}
 
-另外，还需安装\verb|make|程序包，并下载树状区块链的源代码\footnote{https://github.com/xyongcn/BlockChain2017/tree/master/src/go-ethereum1.9.12-modify/go-ethereum}。
+另外，还需安装\verb|make|程序包，并下载树状区块链的源代码\footnote{\url{https://github.com/xyongcn/BlockChain2017/tree/master/src/go-ethereum1.9.12-modify/go-ethereum}}。
 
 \section{测试步骤}
 
@@ -75,11 +75,11 @@
 
 \subsection{进行测试}
 
-代码仓库\footnote{https://gitee.com/endericedragon/transfer-2leaf}给出了构建图3-1所示的区块链网络的数据文件和脚本，并附有一份实验手册。本节将简要介绍测试步骤。
+代码仓库\footnote{\url{https://gitee.com/endericedragon/transfer-2leaf}}给出了构建图3-1所示的区块链网络的数据文件和脚本，并附有一份实验手册。本节将简要介绍测试步骤。
 
 \begin{enumerate}
     \item 确认w1、w11和w12的数据目录中不存在\verb|gethdata/geth|子目录。若存在，则需要将其删除；
-    \item 在代码仓库根目录中启动终端，运行\verb|sh w1_init.sh|指令，启动分支区块链w1，并留意形如\verb|INFO [04-10|20:36:48.833] Started P2P networking self="enode://......"|的输出，记录该双引号包裹的字符串；
+    \item 在代码仓库根目录中启动终端，运行\verb|sh w1_init.sh|指令，启动分支区块链w1，并留意形如INFO [04-10|20:36:48.833] Started P2P networking self="enode://......"的输出，记录该双引号包裹的字符串；
     \item 在链w11和链w12的预加载脚本中，替换\verb|admin.addPeer()|方法的参数为上一步中记录的字符串
     \item 另启动两个终端，分别执行启动链w11和链w12的脚本，若观察到形如\begin{verbatim}
 INFO [04-10|20:54:02.335] Block synchronisation started
@@ -269,7 +269,7 @@ $$
     \frac{lcm(c, q)}{2} \geq \frac{q}{2} + \frac{c}{q} \times 9.2070
 $$
 
-当满足上述不等式时，树状区块链才可能提供相较传统区块链更优越的性能。
+当满足上述不等式时，树状区块链更有可能提供相较传统区块链更优越的性能。
 
 观察树状区块链的动态查询复杂度表达式可知，当查询非常频繁，即$c$的值变小时，复杂度将相应降低。
 

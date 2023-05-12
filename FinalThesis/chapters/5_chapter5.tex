@@ -18,7 +18,11 @@
 % The Current Maintainer of this work is Feng Kaiyu.
 %%
 
-\chapter{改进树状区块链——从以太坊到Substrate}
+\chapter{从以太坊到Substrate——使用Rust重写树状区块链}
+
+本章首先分析Substrate开发框架的节点架构，其次介绍官方提供的节点模板，演示在其上进行开发的方法，最后在节点模板的基础上，引入树状区块链的部分特性——账号地理位置，以证明将树状区块链从以太坊开发平台迁移至Substrate开发框架的可行性。
+
+\section{重写原因简析}
 
 树状区块链是在以太坊官方客户端Go-Ethereum的源代码上修改而来，因此，虽然在结构上做出了很大的调整，它也继承了许多Go-Ethereum的特点，例如共识算法和EVM虚拟机等，其性能表现也依然受制于Go-Ethereum。从整体上评估，第三章的3.5.2.1节通过统计学方法，验证了以太坊顺序串行执行交易的特点，这样的执行策略使得以太坊在面对高并发请求时的处理效率不尽如人意；从局部评估，研究\cite{privateChainConsensus}表明，以太坊所使用的共识算法之一——基于工作量的证明（Proof of Work），其性能表现已落后其他更先进的算法。然而，以太坊并未在源代码层面留有太多的可扩展空间，这也意味着许多诸如更换共识算法，修改交易执行逻辑等的自定义修改在实践时困难重重，限制了在以太坊平台改良优化的空间。
 
@@ -32,7 +36,7 @@ Substrate在设计时，严格遵循三点原则：
     \item 广泛使用分层抽象、泛型实现和灵活的API作为主要的编码实践，并将库分离为不同的体系结构组件。在核心功能方面，Substrate官方提供了许多不同的实现，例如数据库层的RocksDB和ParityDB，共识层的AURA引擎和Grandpa引擎等，可以任由开发者选择；在应用功能方面，Substrate允许开发者调用官方已开发妥当的模块pallet为他们的区块链添加自定义功能，例如保存并处理账号信息的balances模块，和管理智能合约的contracts模块；不仅如此，Substrate也提供了这些模块的实现源代码，开发者可以自行下载并进行修改后引入区块链，实现功能的定制化。这一设计原则，赋予了Substrate极好的可扩展性，便于开发人员依据实际需要进行功能增删和优化改进等操作。
 \end{itemize}
 
-综合以上事实，将树状区块链自以太坊开发平台迁移至Substrate开发框架内，不仅能降低开发难度，获得更好的性能表现和安全性，还能获得更好的兼容性，令区块链能够在浏览器中乃至嵌入式设备上运行，拓宽树状区块链的应用范围。本章首先分析Substrate开发框架的节点架构，其次介绍官方提供的节点模板，演示在其上进行开发的方法，最后在节点模板的基础上，引入树状区块链的部分特性——账号地理位置，以证明将树状区块链从以太坊开发平台迁移至Substrate开发框架的可行性。
+综合以上事实，将树状区块链自以太坊开发平台迁移至Substrate开发框架内，不仅能降低开发难度，获得更好的性能表现和安全性，还能获得更好的兼容性，令区块链能够在浏览器中乃至嵌入式设备上运行，拓宽树状区块链的应用范围。
 
 \section{Substrate节点架构}
 
@@ -71,11 +75,11 @@ WebAssembly运行时环境确定交易是否有效，并负责处理区块链的
 
 \section{Substrate节点模板介绍}
 
-Substrate官方提供了一份开源的节点模板\footnote{https://github.com/substrate-developer-hub/substrate-node-template}。节点模板中已包含较完整的运行时环境，且允许开发者自由增删模块，实现功能定制。此外，Substrate也提供了教程文档\footnote{https://docs.substrate.io/tutorials/}，辅助开发者学习使用节点模板。本节将演示在Linux环境下编译节点模板、与节点模板交互、以及为节点模板引入新模块的方法。
+Substrate官方提供了一份开源的节点模板\footnote{\url{https://github.com/substrate-developer-hub/substrate-node-template}}。节点模板中已包含较完整的运行时环境，且允许开发者自由增删模块，实现功能定制。此外，Substrate也提供了教程文档\footnote{\url{https://docs.substrate.io/tutorials/}}，辅助开发者学习使用节点模板。本节将演示在Linux环境下编译节点模板、与节点模板交互、以及为节点模板引入新模块的方法。
 
 \subsection{环境配置}
 
-本章的所有工作在表5-1所示的环境中进行：
+本章的所有工作在表5-1所示的环境中进行。为提高开发效率，笔者继续使用第四章中搭建的WSL 2环境进行本章的工作。
 
 \begin{table}[htbp]
     \linespread{1.5}
@@ -87,12 +91,12 @@ Substrate官方提供了一份开源的节点模板\footnote{https://github.com/
         图形处理器 & Intel Iris Xe 80EU        \\
         内存    & 24GB                      \\
         操作系统  & Ubuntu 22.04.2 LTS        \\
-        虚拟机   & VMWare Workstation Pro 17 \\
+        虚拟机   & Windows Subsystem Linux 2 \\
         \bottomrule
     \end{tabular}
 \end{table}
 
-同时，使用节点模板要求安装git、make、clang、curl并配置Rust开发环境\footnote{https://docs.substrate.io/install/linux/}。
+同时，使用节点模板要求安装git、make、clang、curl并配置Rust开发环境\footnote{\url{https://docs.substrate.io/install/linux/}}。
 
 使用如下指令安装包含git、make、clang、curl工具包：
 
@@ -123,7 +127,7 @@ rustup target add wasm32-unknown-unknown --toolchain nightly-2023-03-21
 
 在源代码根目录中打开终端，执行\verb|cargo build --release|命令，稍事等待至编译完成后，在终端运行\verb|./target/release/node-template --dev|，即能在开发模式下启动节点模板编译而成的节点。
 
-使用Polkadot JS APP连接到该区块链\footnote{https://polkadot.js.org/apps/?rpc=ws\%3A\%2F\%2F127.0.0.1\%3A9944\#/explorer}，在页面导航栏中依次选择“账户” - “账户”，既能看到节点中预定义的账户的各项信息。在导航栏中依次选择“开发者” - “交易”，既能利用WebAssembly运行时环境中引入的模块进行各项操作。如图5-2所示，选择ALICE账户后，依次选择balances模块，选择transfer方法，在Id: AccoundId处选择FERDIE，value处填写10，随后点击“提交交易” - “签名并提交”，即可提交一个转账交易，将10单位代币从ALICE账号余额中转移到FERDIE账号余额中。
+使用Polkadot JS APP连接到该区块链\footnote{\url{https://polkadot.js.org/apps/?rpc=ws\%3A\%2F\%2F127.0.0.1\%3A9944\#/explorer}}，在页面导航栏中依次选择“账户” - “账户”，既能看到节点中预定义的账户的各项信息。在导航栏中依次选择“开发者” - “交易”，既能利用WebAssembly运行时环境中引入的模块进行各项操作。如图5-2所示，选择ALICE账户后，依次选择balances模块，选择transfer方法，在Id: AccoundId处选择FERDIE，value处填写10，随后点击“提交交易” - “签名并提交”，即可提交一个转账交易，将10单位代币从ALICE账号余额中转移到FERDIE账号余额中。
 
 \begin{figure}[htbp]
     \centering
@@ -139,7 +143,7 @@ rustup target add wasm32-unknown-unknown --toolchain nightly-2023-03-21
 
 模块balances负责记录账号信息，并提供转账等与账号信息有关的功能。为实现账户信息的增添，必须对Substrate官方实现的balances模块源代码进行一定修改。
 
-访问substrate代码仓库\footnote{https://github.com/Endericedragon/substrate/tree/polkadot-v0.9.40}，切换至\verb|polkadot-0.9.40|分支以和节点模板使用的模块所处的分支一致。下载该分支的源代码并将\verb|frame/balances|目录复制到节点模板的\verb|pallets|目录中。
+访问substrate代码仓库\footnote{\url{https://github.com/Endericedragon/substrate/tree/polkadot-v0.9.40}}，切换至\verb|polkadot-0.9.40|分支以和节点模板使用的模块所处的分支一致。下载该分支的源代码并将\verb|frame/balances|目录复制到节点模板的\verb|pallets|目录中。
 
 由于下载获得的balances模块源代码使用相对路径引用其他模块，但节点模板目录中并不存在这些路径，故需要将\verb|pallets/balances/Cargo.toml|配置文件中对其他模块的引用修改为从Github上直接引用。举例而言，对于该相对路径引用：
 
@@ -261,7 +265,7 @@ pub fn transfer_with_position(
 }
 \end{lstlisting}
 
-至此，对代码的改动全部结束。以上修改已形成文档\footnote{https://github.com/Endericedragon/substrate-node-template/blob/main/修改记录.md}，以便后人阅读参考。
+至此，对代码的修改暂告一段落。以上修改已形成文档\footnote{\url{https://github.com/Endericedragon/substrate-node-template/blob/main/\%E4\%BF\%AE\%E6\%94\%B9\%E8\%AE\%B0\%E5\%BD\%95.md}}，以便后人阅读参考。
 
 \subsection{编译并测试修改结果}
 

@@ -1,0 +1,166 @@
+{
+    "0x075c06e40ff4067d3f9d765719555f06532bb170": {
+        "StartingPointWrittenToContract": 3578,
+        "DestinationWrittenToContract": 3200,
+        "FoundIdleCarsNearby": 3,
+        "FoundTheMostNearbyCar": 28,
+        "TheMostNearbyCarIsSelected": 446,
+        "PassengerOnBoard": 6797,
+        "PassengerArriveAtDestination": 2967,
+        "PassengerPaysAndGetsOff": 3738
+    },
+    "0xbb9fdf370e08bb5dee6f39ea440de18f01cdb1c8": {
+        "StartingPointWrittenToContract": 3778,
+        "DestinationWrittenToContract": 474,
+        "FoundIdleCarsNearby": 5,
+        "FoundTheMostNearbyCar": 20,
+        "TheMostNearbyCarIsSelected": 3004,
+        "PassengerOnBoard": 6741,
+        "PassengerArriveAtDestination": 3730,
+        "PassengerPaysAndGetsOff": 949
+    },
+    "0xed04389fb476cbfb0737477e9aa3a509404917cf": {
+        "StartingPointWrittenToContract": 775,
+        "DestinationWrittenToContract": 481,
+        "FoundIdleCarsNearby": 3,
+        "FoundTheMostNearbyCar": 14027,
+        "TheMostNearbyCarConflict": 3006,
+        "TheMostNearbyCarIsSelected": 1462,
+        "PassengerOnBoard": 2248,
+        "PassengerArriveAtDestination": 5000,
+        "PassengerPaysAndGetsOff": 3920
+    },
+    "0x54dd0a733e1c1ae9ea5ddab64c5f3922daec1ddf": {
+        "StartingPointWrittenToContract": 1284,
+        "DestinationWrittenToContract": 3770,
+        "FoundIdleCarsNearby": 3,
+        "FoundTheMostNearbyCar": 30,
+        "TheMostNearbyCarIsSelected": 2939,
+        "PassengerOnBoard": 4676,
+        "PassengerArriveAtDestination": 4064,
+        "PassengerPaysAndGetsOff": 1035
+    },
+    "0xd93f7bbe87e0986efca3dedc91880635a0f355d9": {
+        "StartingPointWrittenToContract": 2050,
+        "DestinationWrittenToContract": 2973,
+        "FoundIdleCarsNearby": 3,
+        "FoundTheMostNearbyCar": 32,
+        "TheMostNearbyCarIsSelected": 3696,
+        "PassengerOnBoard": 5019,
+        "PassengerArriveAtDestination": 1021,
+        "PassengerPaysAndGetsOff": 1228
+    },
+    "0x781b6d4d069a201ca8dc1542684edffd1b79c025": {
+        "StartingPointWrittenToContract": 4488,
+        "DestinationWrittenToContract": 1820,
+        "FoundIdleCarsNearby": 1,
+        "FoundTheMostNearbyCar": 21,
+        "TheMostNearbyCarIsSelected": 607,
+        "PassengerOnBoard": 4866,
+        "PassengerArriveAtDestination": 1214,
+        "PassengerPaysAndGetsOff": 5014
+    },
+    "0x05d6ca3c365ab26983bfca03809309a8258e3f62": {
+        "StartingPointWrittenToContract": 2755,
+        "DestinationWrittenToContract": 945,
+        "FoundIdleCarsNearby": 3,
+        "FoundTheMostNearbyCar": 22031,
+        "TheMostNearbyCarConflict": 14904,
+        "TheMostNearbyCarIsSelected": 2553,
+        "PassengerOnBoard": 6354,
+        "PassengerArriveAtDestination": 2925,
+        "PassengerPaysAndGetsOff": 3758
+    },
+    "0x792e5531f6d360524e4dd3f1d17725edcc9b1dc1": {
+        "StartingPointWrittenToContract": 701,
+        "DestinationWrittenToContract": 4072,
+        "FoundIdleCarsNearby": 7,
+        "FoundTheMostNearbyCar": 23,
+        "TheMostNearbyCarIsSelected": 997,
+        "PassengerOnBoard": 6228,
+        "PassengerArriveAtDestination": 3904,
+        "PassengerPaysAndGetsOff": 1005
+    },
+    "0x086ba65affc894f226e87f8d16f20a35d4f60b4d": {
+        "StartingPointWrittenToContract": 1776,
+        "DestinationWrittenToContract": 1021,
+        "FoundIdleCarsNearby": 6,
+        "FoundTheMostNearbyCar": 41,
+        "TheMostNearbyCarIsSelected": 1179,
+        "PassengerOnBoard": 8917,
+        "PassengerArriveAtDestination": 986,
+        "PassengerPaysAndGetsOff": 7046
+    },
+    "0x2702ee5633daab4d277f5660f1c29d3e5454f7b3": {
+        "StartingPointWrittenToContract": 1024,
+        "DestinationWrittenToContract": 5004,
+        "FoundIdleCarsNearby": 4,
+        "FoundTheMostNearbyCar": 35,
+        "TheMostNearbyCarIsSelected": 3879,
+        "PassengerOnBoard": 8030,
+        "PassengerArriveAtDestination": 2251,
+        "PassengerPaysAndGetsOff": 1003
+    },
+    "0x2888bd343cbbc9cb5469c7a3c52d51dff4350d97": {
+        "StartingPointWrittenToContract": 3026,
+        "DestinationWrittenToContract": 3911,
+        "FoundIdleCarsNearby": 10,
+        "FoundTheMostNearbyCar": 33,
+        "TheMostNearbyCarIsSelected": 956,
+        "PassengerOnBoard": 9296,
+        "PassengerArriveAtDestination": 992,
+        "PassengerPaysAndGetsOff": 2865
+    },
+    "0x7a594ef9f871e4ef17c8d659aa58b3b09e090cf3": {
+        "StartingPointWrittenToContract": 3940,
+        "DestinationWrittenToContract": 997,
+        "FoundIdleCarsNearby": 4,
+        "FoundTheMostNearbyCar": 14014,
+        "TheMostNearbyCarConflict": 7011,
+        "TheMostNearbyCarIsSelected": 293,
+        "PassengerOnBoard": 9393,
+        "PassengerArriveAtDestination": 4878,
+        "PassengerPaysAndGetsOff": 994
+    },
+    "0xb2e192f38247113c0a695a4da975771bfd32d68e": {
+        "StartingPointWrittenToContract": 937,
+        "DestinationWrittenToContract": 998,
+        "FoundIdleCarsNearby": 4,
+        "FoundTheMostNearbyCar": 24,
+        "TheMostNearbyCarIsSelected": 7011,
+        "PassengerOnBoard": 3257,
+        "PassengerArriveAtDestination": 2849,
+        "PassengerPaysAndGetsOff": 1789
+    },
+    "0xe3cfc7fd117fa5762bfb5390acbdf48557a18ac2": {
+        "StartingPointWrittenToContract": 5980,
+        "DestinationWrittenToContract": 2250,
+        "FoundIdleCarsNearby": 5,
+        "FoundTheMostNearbyCar": 31,
+        "TheMostNearbyCarIsSelected": 966,
+        "PassengerOnBoard": 4639,
+        "PassengerArriveAtDestination": 2516,
+        "PassengerPaysAndGetsOff": 3205
+    },
+    "0xa97253e4fe217e80b5f2e995bd54904f63726719": {
+        "StartingPointWrittenToContract": 2972,
+        "DestinationWrittenToContract": 2259,
+        "FoundIdleCarsNearby": 5,
+        "FoundTheMostNearbyCar": 14028,
+        "TheMostNearbyCarConflict": 969,
+        "TheMostNearbyCarIsSelected": 6424,
+        "PassengerOnBoard": 5870,
+        "PassengerArriveAtDestination": 3648,
+        "PassengerPaysAndGetsOff": 2835
+    },
+    "0xce2897c392e16c5762131a56686733e035a4aa30": {
+        "StartingPointWrittenToContract": 2231,
+        "DestinationWrittenToContract": 1000,
+        "FoundIdleCarsNearby": 5,
+        "FoundTheMostNearbyCar": 39,
+        "TheMostNearbyCarIsSelected": 2813,
+        "PassengerOnBoard": 4304,
+        "PassengerArriveAtDestination": 3198,
+        "PassengerPaysAndGetsOff": 701
+    }
+}

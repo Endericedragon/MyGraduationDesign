@@ -24,18 +24,18 @@
 
 基于区域索引区块链的出租车调度系统，以董斌的区块链地图存储作为基础，由成佳壮首先提出并实现路径规划和司乘匹配等算法，并随后经过万琦玲完善，并初步形成了复现手册；它是一套采用实验室已有成果——区域索引区块链作为服务器后端、Vue 2.JS作为前端的出租车调度系统。在万琦玲设计的前端页面上，用户可以通过实时地图信息，直观地获得自己的位置，以及附近在线的乘客、司机等信息。用户角色分为乘客和司机两大类，前者可以进行提交乘车请求、确认上车和付款等操作，而后者可以选择是否接受派来的订单，确认到达乘客上车地点和确认到达乘客下车地点等操作。
 
-本文将基于上述实验室已有工作，进行该基于区域索引区块链的出租车调度系统的复现工作，并详细讲解在复现过程中遇到的问题，及其解决方案。此外，该部分工作还补充了初版复现手册的缺漏，修正了其中的错误，重构了已有的脚本代码，提升了可扩展性和鲁棒性，形成了新版的复现手册，方便后人参考\footnote{https://github.com/Endericedragon/ReproducingBlockchain}。
+本文将基于上述实验室已有工作，进行该基于区域索引区块链的出租车调度系统的复现工作，并详细讲解在复现过程中遇到的问题，及其解决方案。此外，该部分工作还补充了初版复现手册的缺漏，修正了其中的错误，重构了已有的脚本代码，提升了可扩展性和鲁棒性，形成了新版的复现手册，方便后人参考\footnote{\url{https://github.com/Endericedragon/ReproducingBlockchain}}。
 
 \section{环境配置}
 
-本文复现工作将在如下环境中进行：
+本章的复现工作将在表2-1所示的环境中进行。
 
 \begin{table}[htbp]
     \linespread{1.5}
     \zihao{5}
     \centering
     \caption{复现环境}\label{复现环境}
-    \begin{tabular}{*{5}{>{\centering\arraybackslash}p{6cm}}} \toprule
+    \begin{tabular}{r|l} \toprule
         中央处理器 & Intel Core i5-12500H      \\
         图形处理器 & Intel Iris Xe 80EU        \\
         内存    & 24GB                      \\
@@ -89,7 +89,7 @@ geth1 --datadir ./gethdata --networkid 91036 --port 30303 --rpc --rpcaddr 127.0.
     \zihao{5}
     \centering
     \caption{智能合约功能概述}\label{智能合约功能概述}
-    \begin{tabular}{*{5}{>{\centering\arraybackslash}p{4cm}}} \toprule
+    \begin{tabular}{*{5}{>{\centering\arraybackslash}p{6cm}}} \toprule
         文件名              & 功能                                      \\ \hline
         StoreMap.sol     & 存储详细的地图数据，提供数据查询的结构及A-Star寻路等算法的实现      \\
         StoreTraffic.sol & 司机和乘客的信息管理， 提供司乘位置的改查、基于Geohash的距离计算等服务 \\\bottomrule
@@ -177,6 +177,10 @@ geth1 --datadir ./gethdata --networkid 91036 --port 30303 --rpc --rpcaddr 127.0.
 
 综合以上两点，可以得出结论：当节点无法加入区块链网络时，需要检查节点的创世配置文件是否相同，以及节点的keystore文件夹内的内容是否一致。同时满足以上两点条件，节点才能成功加入区块链网络。
 
+\subsection{Selenium库的废弃语法}
+
+Selenium是一个用于自动化测试网页的工具组，其可以操控浏览器，模拟人类的操作，自动找到页面中的元素并与其进行交互。自发布以来，Selenium已经发布了数个版本，其API亦有小幅改动。笔者在运行引入了Selenium的代码时，遇到了形如\verb|selenium has no attribute named find_element_by_id|的错误信息。这是因为Selenium已经更改了定位元素的接口。在笔者使用的Selenium版本中，可使用形似\verb|find_element(by=By.id, value=...)|的API代替上述废弃API。同理，\verb|find_elelements_by_class|也需要更换为\verb|find_element(by=By.CLASS_NAME, value=...)|。具体的API使用方法，请参见Selenium的官方网站\footnote{\url{https://selenium.dev}}。
+
 \subsection{合约相关错误}
 
 在浏览器的前端系统中进行操作时，按下F12打开开发者选项窗口，可能会见到有关汽油费的错误提示（Out of Gas）。经过排查，这是合约的编写、上传、调用的过程出现了错误。由于问题隐蔽、报错信息不能直接反应实际问题点，笔者花费了较多时间调试合约相关之错误。现将部署合约以及与合约交互的正确操作流程陈述如下。
@@ -211,19 +215,19 @@ geth1 --datadir ./gethdata --networkid 91036 --port 30303 --rpc --rpcaddr 127.0.
 
 部署完成后的合约可以使用合约地址与其建立交互渠道，并调用合约内定义的方法。在web3.js库的辅助下，与合约进行交互仅需短短数行代码。最小示例如下：
 
-\begin{lstlisting}[caption={合约交互}, label={lst:合约交互}]
-// 使用web3.js库
-const Web3 = require('web3');
-// 使用WebSocket协议连接到区块链，本例中端口号为8546
-let web3 = new Web3(new Web3.providers.WebsocketProvider("ws://127.0.0.1:8546"));
-// 部署合约时获得的合约地址
-let contractAddress = '0x23b98f92ceac005e570b6768da377b3abd11012e';
-// 编译合约时保存的应用程序二进制接口信息
-let contractAbi = JSON.parse(fs.readFileSync('./contractAbi.json', 'utf-8'));
-// 合约实例
-let contractInstance = new web3.eth.Contract(mapContractAbi, mapContractAddress);
-// 调用合约中定义的example方法
-contractInstance.methods.example().then((res) => {/* 处理返回值res */});
+\begin{lstlisting}[caption={合约交互}, label={lst:合约交互}, morekeywords={let, const, new}]
+    // 使用web3.js库
+    const Web3 = require('web3');
+    // 使用WebSocket协议连接到区块链，本例中端口号为8546
+    let web3 = new Web3(new Web3.providers.WebsocketProvider("ws://127.0.0.1:8546"));
+    // 部署合约时获得的合约地址
+    let contractAddress = '0x23b98f92ceac005e570b6768da377b3abd11012e';
+    // 编译合约时保存的应用程序二进制接口信息
+    let contractAbi = JSON.parse(fs.readFileSync('./contractAbi.json', 'utf-8'));
+    // 合约实例
+    let contractInstance = new web3.eth.Contract(mapContractAbi, mapContractAddress);
+    // 调用合约中定义的example方法
+    contractInstance.methods.example().then((res) => {/* 处理返回值res */});
 \end{lstlisting}
 
 在进行实验时，若出现难以排查的错误，应首先考虑合约相关错误。综合上述部署步骤，合约相关错误可以从以下几点进行排查：

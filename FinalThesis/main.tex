@@ -64,10 +64,11 @@
 % 你也可以选用自己的喜欢的其他宏包，如 minted；
 % 然而由于 minted 依赖 Python 的 Pygments 库作为外部依赖，因此出于模板的简洁程度考虑，我们没有提供 minted 进行代码块书写的示例。
 \usepackage{listings}
+\definecolor{Orange}{RGB}{255,127,39}
 
 \lstset{
-  basicstyle          =   \sffamily,          % 基本代码风格
-  keywordstyle        =   \bfseries,          % 关键字风格
+  basicstyle          =   \ttfamily,          % 基本代码风格
+  keywordstyle        =   \bfseries\color{Orange}, % 设置关键字为粗体，颜色为 NavyBlue
   commentstyle        =   \rmfamily\itshape,  % 注释的风格，斜体
   stringstyle         =   \ttfamily,  % 字符串风格
   flexiblecolumns,                % 别问为什么，加上这个

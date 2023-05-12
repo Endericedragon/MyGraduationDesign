@@ -26,9 +26,19 @@ def main():
 
         res: dict[str, dict[str, int]] = dict()
         for account_addr, events in logs.items():
-            res[account_addr] = dict()
+            res[account_addr] = defaultdict(int)
+            is_first_dispatch: bool = True
             for i in range(1, len(events)):
-                res[account_addr][events[i].type] = events[i].timestamp - events[i - 1].timestamp
+                if events[i].type == "FoundTheMostNearbyCar":
+                    if is_first_dispatch:
+                        is_first_dispatch = False
+                        res[account_addr]["FoundTheMostNearbyCar"] = events[i].timestamp - events[i - 1].timestamp
+                    else:
+                        res[account_addr]["RepeatlyFoundTheMostNearbyCar"] += events[i].timestamp - events[i - 1].timestamp
+                elif events[i].type == "TheMostNearbyCarConflict":
+                    res[account_addr][events[i].type] += events[i].timestamp - events[i - 1].timestamp
+                else:
+                    res[account_addr][events[i].type] = events[i].timestamp - events[i - 1].timestamp
 
         with open(f"{filename}.json", "w") as f:
             json.dump(res, f, indent=4)
