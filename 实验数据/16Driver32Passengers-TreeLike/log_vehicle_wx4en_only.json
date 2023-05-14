@@ -1,0 +1,300 @@
+{
+    "0x196424dd2bf7c978228ebd7a17b38b993d650696": {
+        "0x46dfb062b17f2ef557a64283347653f11ba7c0": {
+            "FinishedAStarToStartingPoint": 3,
+            "StoreRouteToStartingPointThroughAStarSuccess": 1562,
+            "DestinationReady": 1690,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 2279,
+            "PassengerPaid": 4654,
+            "CarReleased": 7
+        },
+        "0xcae58827099cb4557f40dd308f5efc29e9065b": {
+            "FinishedAStarToStartingPoint": 4,
+            "StoreRouteToStartingPointThroughAStarSuccess": 3260,
+            "DestinationReady": 1595,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 1480,
+            "PassengerPaid": 1446,
+            "CarReleased": 2
+        },
+        "0xfb1c049ecb1884a77e857bcca8ae6443f0143d": {
+            "FinishedAStarToStartingPoint": 7,
+            "StoreRouteToStartingPointThroughAStarSuccess": 2303,
+            "DestinationReady": 1777,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 417,
+            "PassengerPaid": 2175,
+            "CarReleased": 5
+        },
+        "0x0cac0bfe17bd73be78486a51a15db39b10cbaf": {
+            "FinishedAStarToStartingPoint": 3,
+            "StoreRouteToStartingPointThroughAStarSuccess": 364,
+            "DestinationReady": 3397,
+            "FinishedAStarToDestination": 0,
+            "StoreRouteToDestinationSuccess": 1206,
+            "PassengerPaid": 4510,
+            "CarReleased": 4
+        },
+        "0xabd6b57b7d198796947bc03e4f5bd911813caa": {
+            "FinishedAStarToStartingPoint": 4,
+            "StoreRouteToStartingPointThroughAStarSuccess": 1845,
+            "DestinationReady": 2411,
+            "FinishedAStarToDestination": 2,
+            "StoreRouteToDestinationSuccess": 1154,
+            "PassengerPaid": 2762,
+            "CarReleased": 3
+        },
+        "0xf0ce9fe96ac15405e4fd51a62cbdbdaef2d363": {
+            "FinishedAStarToStartingPoint": 4,
+            "StoreRouteToStartingPointThroughAStarSuccess": 541,
+            "DestinationReady": 2028,
+            "FinishedAStarToDestination": 0,
+            "StoreRouteToDestinationSuccess": 424,
+            "PassengerPaid": 2829,
+            "CarReleased": 2
+        },
+        "0xd2ed0cb17fd847c8aa8bc8e9ed3870481ede08": {
+            "FinishedAStarToStartingPoint": 4,
+            "StoreRouteToStartingPointThroughAStarSuccess": 2628,
+            "DestinationReady": 1392,
+            "FinishedAStarToDestination": 2,
+            "StoreRouteToDestinationSuccess": 1559,
+            "PassengerPaid": 4047,
+            "CarReleased": 5
+        },
+        "0x7906b337632876b8050f55ee5b57228f02972f": {
+            "FinishedAStarToStartingPoint": 3,
+            "StoreRouteToStartingPointThroughAStarSuccess": 1258,
+            "DestinationReady": 998,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 2918,
+            "PassengerPaid": 694,
+            "CarReleased": 4
+        }
+    },
+    "0x12d0e4381ef94a70a49252e35b9a65fadd3872b9": {
+        "0x3df2c7b1e2c3e8e5e40c6035f6a3a5bb8fdb6b": {
+            "FinishedAStarToStartingPoint": 3,
+            "StoreRouteToStartingPointThroughAStarSuccess": 2187,
+            "DestinationReady": 1562,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 1689,
+            "PassengerPaid": 2277,
+            "CarReleased": 4
+        },
+        "0x42389309e69a2b32b98f04bc8255ad971797f7": {
+            "FinishedAStarToStartingPoint": 2,
+            "StoreRouteToStartingPointThroughAStarSuccess": 3127,
+            "DestinationReady": 3260,
+            "FinishedAStarToDestination": 0,
+            "StoreRouteToDestinationSuccess": 1595,
+            "PassengerPaid": 1478,
+            "CarReleased": 3
+        },
+        "0x7a5b8a958a74e39ade01f412951fb319ee4fe6": {
+            "FinishedAStarToStartingPoint": 2,
+            "StoreRouteToStartingPointThroughAStarSuccess": 2261,
+            "DestinationReady": 650,
+            "FinishedAStarToDestination": 2,
+            "StoreRouteToDestinationSuccess": 2299,
+            "PassengerPaid": 1772,
+            "CarReleased": 6
+        },
+        "0xd35d112793fe59877302d4064c9ef5a89c0485": {
+            "FinishedAStarToStartingPoint": 7,
+            "StoreRouteToStartingPointThroughAStarSuccess": 2052,
+            "DestinationReady": 2968,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 364,
+            "PassengerPaid": 3393,
+            "CarReleased": 5
+        },
+        "0xedb6f3a4a1ebc511f7fe9bd4f2cd4219ca0a3c": {
+            "FinishedAStarToStartingPoint": 5,
+            "StoreRouteToStartingPointThroughAStarSuccess": 1247,
+            "DestinationReady": 2400,
+            "FinishedAStarToDestination": 2,
+            "StoreRouteToDestinationSuccess": 1842,
+            "PassengerPaid": 2403,
+            "CarReleased": 9
+        },
+        "0x03875bcc0db199992266825e2c1cf0f5bfc200": {
+            "FinishedAStarToStartingPoint": 8,
+            "StoreRouteToStartingPointThroughAStarSuccess": 2312,
+            "DestinationReady": 2082,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 539,
+            "PassengerPaid": 2026,
+            "CarReleased": 3
+        },
+        "0xc265c858c1186113b2d830e6f46f6d95142e97": {
+            "FinishedAStarToStartingPoint": 6,
+            "StoreRouteToStartingPointThroughAStarSuccess": 3749,
+            "DestinationReady": 2629,
+            "FinishedAStarToDestination": 0,
+            "StoreRouteToDestinationSuccess": 1392,
+            "PassengerPaid": 1557,
+            "CarReleased": 4
+        },
+        "0x4093777e3bf0a104ef5576011a965c58a206b6": {
+            "FinishedAStarToStartingPoint": 8,
+            "StoreRouteToStartingPointThroughAStarSuccess": 2461,
+            "DestinationReady": 1259,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 997,
+            "PassengerPaid": 2916,
+            "CarReleased": 4
+        }
+    },
+    "0x456c4df0610c7611ae8bcaed32dd1d94e88ceca4": {
+        "0xd402c7301a68c4c65529ab0c597bb8b13e27f6": {
+            "FinishedAStarToStartingPoint": 1,
+            "StoreRouteToStartingPointThroughAStarSuccess": 2281,
+            "DestinationReady": 4660,
+            "FinishedAStarToDestination": 0,
+            "StoreRouteToDestinationSuccess": 1394,
+            "PassengerPaid": 3124,
+            "CarReleased": 2
+        },
+        "0x95d2b2a36e6a3d1e7ac8edbf99481c6009a191": {
+            "FinishedAStarToStartingPoint": 2,
+            "StoreRouteToStartingPointThroughAStarSuccess": 1481,
+            "DestinationReady": 1448,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 2774,
+            "PassengerPaid": 2259,
+            "CarReleased": 3
+        },
+        "0x6d1558ef76336d670fb6f2b04ae1f345eab947": {
+            "FinishedAStarToStartingPoint": 2,
+            "StoreRouteToStartingPointThroughAStarSuccess": 1777,
+            "DestinationReady": 419,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 2178,
+            "PassengerPaid": 2048,
+            "CarReleased": 5
+        },
+        "0xbf5868b482ace24aa4f339ceb26e32230fc7d3": {
+            "FinishedAStarToStartingPoint": 4,
+            "StoreRouteToStartingPointThroughAStarSuccess": 1207,
+            "DestinationReady": 4513,
+            "FinishedAStarToDestination": 0,
+            "StoreRouteToDestinationSuccess": 1245,
+            "PassengerPaid": 2398,
+            "CarReleased": 5
+        },
+        "0x62119c27e0081b14e6e0c596603d21eaa6d645": {
+            "FinishedAStarToStartingPoint": 9,
+            "StoreRouteToStartingPointThroughAStarSuccess": 1157,
+            "DestinationReady": 2763,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 2311,
+            "PassengerPaid": 2076,
+            "CarReleased": 6
+        },
+        "0x3449a20e1b4700ffd4dd49f0fc14bcac44fee6": {
+            "FinishedAStarToStartingPoint": 2,
+            "StoreRouteToStartingPointThroughAStarSuccess": 2831,
+            "DestinationReady": 1469,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 3747,
+            "PassengerPaid": 2626,
+            "CarReleased": 3
+        },
+        "0x5895ef03d8c36b9a53b4f961cd1345ed0bd79f": {
+            "FinishedAStarToStartingPoint": 1,
+            "StoreRouteToStartingPointThroughAStarSuccess": 4049,
+            "DestinationReady": 1603,
+            "FinishedAStarToDestination": 2,
+            "StoreRouteToDestinationSuccess": 2460,
+            "PassengerPaid": 1256,
+            "CarReleased": 4
+        }
+    },
+    "0x55577fd620a0b8379846fcb1499e4bdc22538843": {
+        "0xac37a0543b6abb8e7add0c00128c9f486e45b0": {
+            "FinishedAStarToStartingPoint": 3,
+            "StoreRouteToStartingPointThroughAStarSuccess": 977,
+            "DestinationReady": 2214,
+            "FinishedAStarToDestination": 2,
+            "StoreRouteToDestinationSuccess": 2261,
+            "PassengerPaid": 644,
+            "CarReleased": 7
+        },
+        "0x4c0ae67f9e2dcabbcaee58afa56c14e427272b": {
+            "FinishedAStarToStartingPoint": 4,
+            "StoreRouteToStartingPointThroughAStarSuccess": 418,
+            "DestinationReady": 2179,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 2051,
+            "PassengerPaid": 2961,
+            "CarReleased": 7
+        },
+        "0xbd2f3e025a8f0b0d8bb9f64ef60980ebb27e8d": {
+            "FinishedAStarToStartingPoint": 2,
+            "StoreRouteToStartingPointThroughAStarSuccess": 2402,
+            "DestinationReady": 1843,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 2409,
+            "PassengerPaid": 1154,
+            "CarReleased": 4
+        },
+        "0x1bdf42d9a37b5b5c5a3bc09cadfade23d07579": {
+            "FinishedAStarToStartingPoint": 5,
+            "StoreRouteToStartingPointThroughAStarSuccess": 424,
+            "DestinationReady": 2831,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 1468,
+            "PassengerPaid": 3746,
+            "CarReleased": 3
+        },
+        "0xb658cbd857f52f9705fbecf9b30cf827dd8c81": {
+            "FinishedAStarToStartingPoint": 5,
+            "StoreRouteToStartingPointThroughAStarSuccess": 1561,
+            "DestinationReady": 4051,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 1600,
+            "PassengerPaid": 2460,
+            "CarReleased": 4
+        }
+    },
+    "0x7a68b86008b0cfc3ae0e8068360271cbb999c97d": {
+        "0x0d5f26272be5a3b462c3b7a978c7bf4b0d6aad": {
+            "FinishedAStarToStartingPoint": 3,
+            "StoreRouteToStartingPointThroughAStarSuccess": 2180,
+            "DestinationReady": 2051,
+            "FinishedAStarToDestination": 2,
+            "StoreRouteToDestinationSuccess": 2966,
+            "PassengerPaid": 363,
+            "CarReleased": 2
+        },
+        "0x926f155822d00a9191fe71ec570bcd1f0eb0c3": {
+            "FinishedAStarToStartingPoint": 2,
+            "StoreRouteToStartingPointThroughAStarSuccess": 2763,
+            "DestinationReady": 2312,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 2080,
+            "PassengerPaid": 539,
+            "CarReleased": 3
+        },
+        "0x5227daf8db7c57d268979df21ba9ee9c93d267": {
+            "FinishedAStarToStartingPoint": 1,
+            "StoreRouteToStartingPointThroughAStarSuccess": 1392,
+            "DestinationReady": 1561,
+            "FinishedAStarToDestination": 0,
+            "StoreRouteToDestinationSuccess": 4049,
+            "PassengerPaid": 1597,
+            "CarReleased": 9
+        },
+        "0x3b49b8eb1d9d3c28242b97c135379e0e32468f": {
+            "FinishedAStarToStartingPoint": 3,
+            "StoreRouteToStartingPointThroughAStarSuccess": 705,
+            "DestinationReady": 2313,
+            "FinishedAStarToDestination": 1,
+            "StoreRouteToDestinationSuccess": 697,
+            "PassengerPaid": 2641,
+            "CarReleased": 2
+        }
+    }
+}

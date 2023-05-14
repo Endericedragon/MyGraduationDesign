@@ -18,15 +18,15 @@
 % The Current Maintainer of this work is Feng Kaiyu.
 %%
 
-\chapter{从以太坊到Substrate——使用Rust重写树状区块链}
+\chapter{从以太坊到Substrate——使用Rust重构树状区块链}
 
 本章首先分析Substrate开发框架的节点架构，其次介绍官方提供的节点模板，演示在其上进行开发的方法，最后在节点模板的基础上，引入树状区块链的部分特性——账号地理位置，以证明将树状区块链从以太坊开发平台迁移至Substrate开发框架的可行性。
 
-\section{重写原因简析}
+\section{使用}
 
 树状区块链是在以太坊官方客户端Go-Ethereum的源代码上修改而来，因此，虽然在结构上做出了很大的调整，它也继承了许多Go-Ethereum的特点，例如共识算法和EVM虚拟机等，其性能表现也依然受制于Go-Ethereum。从整体上评估，第三章的3.5.2.1节通过统计学方法，验证了以太坊顺序串行执行交易的特点，这样的执行策略使得以太坊在面对高并发请求时的处理效率不尽如人意；从局部评估，研究\cite{privateChainConsensus}表明，以太坊所使用的共识算法之一——基于工作量的证明（Proof of Work），其性能表现已落后其他更先进的算法。然而，以太坊并未在源代码层面留有太多的可扩展空间，这也意味着许多诸如更换共识算法，修改交易执行逻辑等的自定义修改在实践时困难重重，限制了在以太坊平台改良优化的空间。
 
-Substrate\cite{substrateHome}由Parity Technologies推出，是一套开源的区块链开发框架，允许开发者针对不同的用途对链进行不同程度的定制。在Substrate诞生前，人们花费了大量的精力，试图设计一个支持多链结构的新型区块链。然而，所有这些花费的时间、金钱和精力最终导向了一个结论：当下做出的深思熟虑的选择很可能成为未来的绊脚石。这是因为随着时间的推移，区块链依赖的某些特定的技术或假设，可能会阻碍并最终扼杀创新\cite{substrateDoc}。因此，以太坊创始人之一Gavin Wood成立了Parity技术公司，力图改写这一局面。他们的处女座——以太坊客户端Parity，在相同的硬件配置环境下展现出了远胜Go-Ethereum的性能表现，提升幅度达到了可观的89.8\%\cite{parityVSgeth}；在后续开发Parity自研的区块链Polkadot时，Gavin意识到，仅需将Polkadot进行抽象，剥离部分细节，即能获得一个可扩展性极强，适用范围更广的区块链框架。在2018年，Polkadot和用于开发它的区块链框架终于被分离开，成为两个独立的项目，而后者，即是本章讨论的主角——Substrate。
+Substrate\cite{substrateHome}由Parity Technologies推出，是一套基于Rust编程语言开发的开源的区块链开发框架，允许开发者针对不同的用途对链进行不同程度的定制。在Substrate诞生前，人们花费了大量的精力，试图设计一个支持多链结构的新型区块链。然而，所有这些花费的时间、金钱和精力最终导向了一个结论：当下做出的深思熟虑的选择很可能成为未来的绊脚石。这是因为随着时间的推移，区块链依赖的某些特定的技术或假设，可能会阻碍并最终扼杀创新\cite{substrateDoc}。因此，以太坊创始人之一Gavin Wood成立了Parity技术公司，力图改写这一局面。他们的处女座——以太坊客户端Parity，在相同的硬件配置环境下展现出了远胜Go-Ethereum的性能表现，提升幅度达到了可观的89.8\%\cite{parityVSgeth}；在后续开发Parity自研的区块链Polkadot时，Gavin意识到，仅需将Polkadot进行抽象，剥离部分细节，即能获得一个可扩展性极强，适用范围更广的区块链框架。在2018年，Polkadot和用于开发它的区块链框架终于被分离开，成为两个独立的项目，而后者，即是本章讨论的主角——Substrate。
 
 Substrate在设计时，严格遵循三点原则：
 
@@ -44,7 +44,7 @@ Substrate在设计时，严格遵循三点原则：
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/simplified-architecture.png}
+    \includegraphics[width=\textwidth]{images/simplified-architecture.png}
     \caption{Substrate节点架构简图}\label{Substrate节点架构简图} % label 用来在文中索引
 \end{figure}
 
@@ -131,7 +131,7 @@ rustup target add wasm32-unknown-unknown --toolchain nightly-2023-03-21
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/substrateTransfer.png}
+    \includegraphics[width=\textwidth]{images/substrateTransfer.png}
     \caption{转账交易示例}\label{转账交易示例} % label 用来在文中索引
 \end{figure}
 
@@ -273,7 +273,7 @@ pub fn transfer_with_position(
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/setPos.png}
+    \includegraphics[width=\textwidth]{images/setPos.png}
     \caption{发起设置位置交易}\label{发起设置位置交易} % label 用来在文中索引
 \end{figure}
 
@@ -281,7 +281,7 @@ pub fn transfer_with_position(
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/watchAccInfo.png}
+    \includegraphics[width=\textwidth]{images/watchAccInfo.png}
     \caption{查询账户信息}\label{查询账户信息} % label 用来在文中索引
 \end{figure}
 
@@ -289,7 +289,7 @@ pub fn transfer_with_position(
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/transWithPos.png}
+    \includegraphics[width=\textwidth]{images/transWithPos.png}
     \caption{调用带位置信息的转账方法}\label{调用带位置信息的转账方法} % label 用来在文中索引
 \end{figure}
 
@@ -297,7 +297,7 @@ pub fn transfer_with_position(
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/transWithPosResult.png}
+    \includegraphics[width=\textwidth]{images/transWithPosResult.png}
     \caption{转账发起人位置已更新}\label{转账发起人位置已更新} % label 用来在文中索引
 \end{figure}
 
