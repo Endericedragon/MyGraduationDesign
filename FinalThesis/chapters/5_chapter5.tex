@@ -18,29 +18,54 @@
 % The Current Maintainer of this work is Feng Kaiyu.
 %%
 
-\chapter{从以太坊到Substrate——使用Rust重构树状区块链}
+\chapter{从以太坊到Substrate——使用Rust重写树状区块链}
 
-本章首先分析Substrate开发框架的节点架构，其次介绍官方提供的节点模板，演示在其上进行开发的方法，最后在节点模板的基础上，引入树状区块链的部分特性——账号地理位置，以证明将树状区块链从以太坊开发平台迁移至Substrate开发框架的可行性。
+树状区块链是在以太坊官方客户端Go-Ethereum的源代码上修改而来，因此，虽然在结构上做出了很大的调整，它也继承了许多Go-Ethereum的特点，例如共识算法和EVM虚拟机等，其性能表现也依然受制于Go-Ethereum。从整体上评估，本文第三章通过统计学方法，验证了以太坊顺序串行执行交易的特点，这样的执行策略使得以太坊在面对高并发请求时的处理效率不尽如人意；从局部评估，研究\cite{privateChainConsensus}表明，以太坊所使用的共识算法之一——基于工作量的证明（Proof of Work），其性能表现已落后其他更先进的算法。然而，以太坊并未在源代码层面留有太多的可扩展空间，这也意味着许多诸如更换共识算法，修改交易执行逻辑等的自定义修改在实践时困难重重，限制了在以太坊平台改良优化的空间。因此，另寻一全新的平台，使用全新的工具重写树状区块链，方能绕过以太坊开发平台的短板，有效提升树状区块链的性能表现。在本章中，笔者将选择基于Rust编程语言的Substrate区块链框架作为目标开发平台，介绍使用Rust编程语言重写树状区块链的相关内容。
 
-\section{选择Rust的原因}
+本章首先对Substrate区块链开发框架进行评估，解释为何笔者选择它作为重写工作的目标平台；接下来，更为详细地介绍树状区块链的结构，估算重写工作的大致工作量，确定模块划分，并从中选择本章计划完成的部分——账户地理位置信息，进行编程实现和验证性演示。
 
-\secttion{树状区块链实现简析}
+\section{Substrate框架的选择与评估}
 
+Substrate\cite{substrateHome}由Parity Technologies推出，是一套基于Rust编程语言开发的开源的区块链开发框架。在Substrate诞生前，人们花费了大量的精力，试图设计一个支持多链结构的新型区块链。然而，所有研究结果最终导向了同一个结论：当下做出的深思熟虑的选择很可能成为未来的绊脚石。这是因为随着时间的推移，区块链依赖的某些特定的技术或假设，可能会阻碍并最终扼杀创新\cite{substrateDoc}。因此，以太坊创始人之一Gavin Wood成立了Parity技术公司，力图改写这一局面。他们的处女座——以太坊客户端Parity，在相同的硬件配置环境下展现出了远胜Go-Ethereum的性能表现，提升幅度达到了可观的89.8\%\cite{parityVSgeth}；在后续开发Parity自研的区块链网络Polkadot时，Gavin意识到，仅需将Polkadot网络进行抽象，剥离部分细节，即能获得一个可扩展性极强，适用范围更广的区块链框架。在2018年，Polkadot和用于开发它的区块链框架终于被分离开，成为两个独立的项目，而后者，即是本章讨论的主角——Substrate。
 
-
-树状区块链是在以太坊官方客户端Go-Ethereum的源代码上修改而来，因此，虽然在结构上做出了很大的调整，它也继承了许多Go-Ethereum的特点，例如共识算法和EVM虚拟机等，其性能表现也依然受制于Go-Ethereum。从整体上评估，第三章的3.5.2.1节通过统计学方法，验证了以太坊顺序串行执行交易的特点，这样的执行策略使得以太坊在面对高并发请求时的处理效率不尽如人意；从局部评估，研究\cite{privateChainConsensus}表明，以太坊所使用的共识算法之一——基于工作量的证明（Proof of Work），其性能表现已落后其他更先进的算法。然而，以太坊并未在源代码层面留有太多的可扩展空间，这也意味着许多诸如更换共识算法，修改交易执行逻辑等的自定义修改在实践时困难重重，限制了在以太坊平台改良优化的空间。
-
-Substrate\cite{substrateHome}由Parity Technologies推出，是一套基于Rust编程语言开发的开源的区块链开发框架，允许开发者针对不同的用途对链进行不同程度的定制。在Substrate诞生前，人们花费了大量的精力，试图设计一个支持多链结构的新型区块链。然而，所有这些花费的时间、金钱和精力最终导向了一个结论：当下做出的深思熟虑的选择很可能成为未来的绊脚石。这是因为随着时间的推移，区块链依赖的某些特定的技术或假设，可能会阻碍并最终扼杀创新\cite{substrateDoc}。因此，以太坊创始人之一Gavin Wood成立了Parity技术公司，力图改写这一局面。他们的处女座——以太坊客户端Parity，在相同的硬件配置环境下展现出了远胜Go-Ethereum的性能表现，提升幅度达到了可观的89.8\%\cite{parityVSgeth}；在后续开发Parity自研的区块链Polkadot时，Gavin意识到，仅需将Polkadot进行抽象，剥离部分细节，即能获得一个可扩展性极强，适用范围更广的区块链框架。在2018年，Polkadot和用于开发它的区块链框架终于被分离开，成为两个独立的项目，而后者，即是本章讨论的主角——Substrate。
-
-Substrate在设计时，严格遵循三点原则：
+具体地，Substrate在设计时严格遵循了三点原则：
 
 \begin{itemize}
-    \item 将Rust编程语言作为代码库的核心编程语言。虽然Rust语言的学习曲线较为陡峭，但其极快的速度，极具辨识度的内存管理方式，灵活的抽象能力，以及可编译为WebAssembly的特点使它成为需要高性能表现，强内存安全性，及嵌入式设备友好性等特性之应用场景的不二之选；
+    \item 将Rust编程语言作为代码库的核心编程语言。Rust是一种系统编程语言，它具有高性能、安全和并发性的优势。通过引入所有权、借用和生命周期等概念，Rust可以在编译时检查并确保内存安全。Rust还支持函数式、并发和泛型编程的特性，使得代码更加灵活和可复用。虽然Rust语言的学习曲线较为陡峭，但其极快的速度，极具辨识度的内存管理方式，灵活的抽象能力，以及可编译为WebAssembly的特点使它成为操作系统、嵌入式系统、网络编程等领域极受欢迎的选择；
     \item 将WebAssembly作为应用程序逻辑的执行环境。WebAssembly是一种新型代码，由万维网联盟创建，可从Rust、C、C++等语言编译获得，且受到多种JavaScript引擎的广泛支持，具有良好的兼容性\cite{wasmIntro}。Substrate的易升级性也建立于WebAssembly的基础之上：它将区块链的具体业务逻辑编译为WebAssembly字节码，并存储于区块链的数据存储区中，用户可以像发起普通交易一样发起一个申请修改链上存储的WebAssembly字节码的交易，从而便利地更新升级区块链系统；
     \item 广泛使用分层抽象、泛型实现和灵活的API作为主要的编码实践，并将库分离为不同的体系结构组件。在核心功能方面，Substrate官方提供了许多不同的实现，例如数据库层的RocksDB和ParityDB，共识层的AURA引擎和Grandpa引擎等，可以任由开发者选择；在应用功能方面，Substrate允许开发者调用官方已开发妥当的模块pallet为他们的区块链添加自定义功能，例如保存并处理账号信息的balances模块，和管理智能合约的contracts模块；不仅如此，Substrate也提供了这些模块的实现源代码，开发者可以自行下载并进行修改后引入区块链，实现功能的定制化。这一设计原则，赋予了Substrate极好的可扩展性，便于开发人员依据实际需要进行功能增删和优化改进等操作。
 \end{itemize}
 
-综合以上事实，将树状区块链自以太坊开发平台迁移至Substrate开发框架内，不仅能降低开发难度，获得更好的性能表现和安全性，还能获得更好的兼容性，令区块链能够在浏览器中乃至嵌入式设备上运行，拓宽树状区块链的应用范围。
+此外，Substrate对多链结构的区块链网络提供了良好的支持。基于Substrate开发的Polkadot网络，引入了平行链和中继链的概念。中继链是波卡网络的核心，它连接、验证平行链，并路由平行链之间的消息，实现了不同区块链之间的互操作性和共享安全性；而平行链是可随开发者目的不同而自定义的定制链，它通过collator打包交易信息，并提交给中继链进行有效性验证。平行链可以并发处理交易，提高网络的扩展性和效率。
+
+综上所述，使用Rust编程语言，在Substrate区块链开发框架内对树状区块链进行重写，将至少可以获得以下以太坊开发平台难以提供的优势：
+
+\begin{itemize}
+    \item 使用效率更高，平台兼容性更好的WebAssembly虚拟机，使树状区块链可以在诸如嵌入式设备这样性能一般的计算机上运行；
+    \item 使用高性能、安全和并发性的Rust编程语言进行开发，可避免在开发过程中引入内存泄漏等不易察觉的缺陷，令树状区块链运行更快速稳定；
+    \item 允许开发者使用官方提供的模块和自行实现的模块为区块链增添新功能，令自定义链上功能的过程更加简单方便；
+    \item 提供了更好的多链支持，存在Polkadot的平行链、中继链等设计概念作为参考，有利于树状区块链多链结构的构建。
+\end{itemize}
+
+\section{树状区块链实现简析}
+
+由于区域索引区块链是树状区块链的前身，故本节的实现分析将以区域索引区块链作为起点。
+
+区域索引区块链保留了以太坊官方实现的单链结构以及共识机制等其他部分结构，在以太坊已有的收据树、世界状态树和交易树基础上，新增了一个支持快速检索地理位置相关数据的区域状态树，以及一个支持历史交易地理位置查询的账户位置树。其中，账户位置树是一个以时间为键，以Geohash编码的地理位置字符串为值的键值对结构，而区域状态树以Geohash编码的地理位置字符串为键，以当前区块链管辖范围内的账户信息、交易信息及收据信息作为值。这些新增树结构的根哈希将分别存储在区块头和世界账户状态中。不仅如此，区域索引区块链还为表示交易、收据和账户状态的数据结构添加了地理位置字段，如图\ref{区域链区块示意图}所示。
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{images/区域链区块示意图.png}
+    \caption{区域索引区块链区块示意图}\label{区域链区块示意图} % label 用来在文中索引
+  \end{figure}
+
+  树状区块链在% 对应周畅大论文44页
+
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{images/树状链区块示意图.png}
+    \caption{树状区块链区块示意图}\label{树状链区块示意图} % label 用来在文中索引
+  \end{figure}
 
 \section{Substrate节点架构}
 
@@ -152,14 +177,13 @@ rustup target add wasm32-unknown-unknown --toolchain nightly-2023-03-21
 由于下载获得的balances模块源代码使用相对路径引用其他模块，但节点模板目录中并不存在这些路径，故需要将\verb|pallets/balances/Cargo.toml|配置文件中对其他模块的引用修改为从Github上直接引用。举例而言，对于该相对路径引用：
 
 \begin{lstlisting}
-sp-std = { version = "5.0.0", default-features = false, path = "../../primitives/std" }
-
+    sp-std = { version = "5.0.0", default-features = false, path = "../../primitives/std" }
 \end{lstlisting}
 
 修改为从Github上直接引用：
 
 \begin{lstlisting}
-sp-std = { version = "5.0.0", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
+    sp-std = { version = "5.0.0", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.40" }
 \end{lstlisting}
 
 将所有模块的引用源更改完毕后，保存并关闭\verb|pallets/balances/Cargo.toml|，打开\verb|runtime/Cargo.toml|，将其中对模块\verb|pallet_balances|的引用从Github上引用改为从本地的\verb|pallets/balances|路径引用，修改方法与前文之所述类似，此处不再赘述。
@@ -167,15 +191,15 @@ sp-std = { version = "5.0.0", default-features = false, git = "https://github.co
 最后，修改节点模板根目录中的\verb|Cargo.toml|：
 
 \begin{lstlisting}
-[workspace]
-members = [
-    "node",
-    "pallets/template",
-    "pallets/balances",  # <-- 新增这行
-    "runtime",
-]
-[profile.release]
-panic = "unwind"
+    [workspace]
+    members = [
+        "node",
+        "pallets/template",
+        "pallets/balances",  # <-- 新增这行
+        "runtime",
+    ]
+    [profile.release]
+    panic = "unwind"
 \end{lstlisting}
 
 保存并关闭即可。
@@ -185,34 +209,34 @@ panic = "unwind"
 定义“账户”这一概念的结构体是位于pallets/balances/src/lib.rs源代码的AccountData结构体。笔者在这个结构体中，加入了一个position字段，其类型为笔者自定义的GeoHash类型。增添的代码如下：
 
 \begin{lstlisting}[caption={为balances模块新增代码}]
-const GEOHASH_LENGTH: usize = 14;
+    const GEOHASH_LENGTH: usize = 14;
 
-#[derive(Encode, Decode, Clone, PartialEq, Eq, RuntimeDebug, MaxEncodedLen, TypeInfo)]
-pub struct Geohash([u8; GEOHASH_LENGTH]);
-impl Default for Geohash {
-	fn default() -> Self {
-		Geohash([0; GEOHASH_LENGTH])
-	}
-}
-impl Geohash {
-	pub fn from(geohash: Vec<u8>) -> Self {
-		assert!(geohash.len() <= GEOHASH_LENGTH);
-		let mut position: [u8; GEOHASH_LENGTH] = [0; GEOHASH_LENGTH];
-		for (i, cc) in geohash.iter().enumerate() {
-			position[i] = *cc;
-		}
-		Geohash(position)
-	}
-}
+    #[derive(Encode, Decode, Clone, PartialEq, Eq, RuntimeDebug, MaxEncodedLen, TypeInfo)]
+    pub struct Geohash([u8; GEOHASH_LENGTH]);
+    impl Default for Geohash {
+        fn default() -> Self {
+            Geohash([0; GEOHASH_LENGTH])
+        }
+    }
+    impl Geohash {
+        pub fn from(geohash: Vec<u8>) -> Self {
+            assert!(geohash.len() <= GEOHASH_LENGTH);
+            let mut position: [u8; GEOHASH_LENGTH] = [0; GEOHASH_LENGTH];
+            for (i, cc) in geohash.iter().enumerate() {
+                position[i] = *cc;
+            }
+            Geohash(position)
+        }
+    }
 
-// -- snip --
+    // -- snip --
 
-pub struct AccountData<Balance> {
-    // --snip --
+    pub struct AccountData<Balance> {
+        // --snip --
 
-	// The position of this account, encoded in geohash
-	pub position: Geohash,
-}
+        // The position of this account, encoded in geohash
+        pub position: Geohash,
+    }
 \end{lstlisting}
 
 每个模块均可包含一些方法，开发者可调用这些方法修改链上存储的数据，与模块交互。本小节为balances模块新增两个方法：\verb|set_position()|方法和\verb|transfer_with_position()|方法。
@@ -220,53 +244,53 @@ pub struct AccountData<Balance> {
 首先，为balances模块新增一个\verb|set_position()|方法，允许账户为自己设置地理位置：
 
 \begin{lstlisting}
-#[pallet::call]  // <-- 在pallets/balances/src/lib.rs中全局搜索这行即可找到
-impl<T: Config<I>, I: 'static> Pallet<T, I> {
-    // -- snip --
+    #[pallet::call]  // <-- 在pallets/balances/src/lib.rs中全局搜索这行即可找到
+    impl<T: Config<I>, I: 'static> Pallet<T, I> {
+        // -- snip --
 
-    // Set position for oneself
-    #[pallet::call_index(6)]
-    #[pallet::weight(0)]
-    pub fn set_position(origin: OriginFor<T>, new_position: Vec<u8>) -> DispatchResult {
-        let sender = ensure_signed(origin)?;
-        Self::try_mutate_account(
-            &sender,
-            |target, _| {
-                target.position = Geohash::from(new_position);
-                Ok(())
-            }
-        )
+        // Set position for oneself
+        #[pallet::call_index(6)]
+        #[pallet::weight(0)]
+        pub fn set_position(origin: OriginFor<T>, new_position: Vec<u8>) -> DispatchResult {
+            let sender = ensure_signed(origin)?;
+            Self::try_mutate_account(
+                &sender,
+                |target, _| {
+                    target.position = Geohash::from(new_position);
+                    Ok(())
+                }
+            )
+        }
     }
-}
 \end{lstlisting}
 
 其次，添加一个\verb|transfer_with_position()|方法，令转账发起人提供自身位置信息，用以更新它的\verb|position|字段：
 
 \begin{lstlisting}
-#[pallet::call_index(7)]
-#[pallet::weight(T::WeightInfo::transfer())]
-pub fn transfer_with_position(
-    origin: OriginFor<T>,
-    dest: AccountIdLookupOf<T>,
-    #[pallet::compact] value: T::Balance,
-    position: Vec<u8>
-) -> DispatchResultWithPostInfo {
-    let transactor = ensure_signed(origin)?;
-    let dest = T::Lookup::lookup(dest)?;
-    <Self as Currency<_>>::transfer(
-        &transactor,
-        &dest,
-        value,
-        ExistenceRequirement::AllowDeath,
-    )?;
-    Self::try_mutate_account(
-        &transactor,
-        |target, _| {
-            target.position = Geohash::from(position);
-            Ok(().into())
-        }
-    )
-}
+    #[pallet::call_index(7)]
+    #[pallet::weight(T::WeightInfo::transfer())]
+    pub fn transfer_with_position(
+        origin: OriginFor<T>,
+        dest: AccountIdLookupOf<T>,
+        #[pallet::compact] value: T::Balance,
+        position: Vec<u8>
+    ) -> DispatchResultWithPostInfo {
+        let transactor = ensure_signed(origin)?;
+        let dest = T::Lookup::lookup(dest)?;
+        <Self as Currency<_>>::transfer(
+            &transactor,
+            &dest,
+            value,
+            ExistenceRequirement::AllowDeath,
+        )?;
+        Self::try_mutate_account(
+            &transactor,
+            |target, _| {
+                target.position = Geohash::from(position);
+                Ok(().into())
+            }
+        )
+    }
 \end{lstlisting}
 
 至此，对代码的修改暂告一段落。以上修改已形成文档\footnote{\url{https://github.com/Endericedragon/substrate-node-template/blob/main/\%E4\%BF\%AE\%E6\%94\%B9\%E8\%AE\%B0\%E5\%BD\%95.md}}，以便后人阅读参考。
