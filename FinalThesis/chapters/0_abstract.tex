@@ -22,9 +22,9 @@
 % 中文摘要正文从这里开始
 2008年，随着中本聪发布《Bitcoin: A Peer-to-Peer Electronic Cash System》论文，区块链技术横空出世，并迅速以其去中心化、不可篡改等特点，迅速博得了大量行业的青睐。目前，区块链技术已经在数字货币、车联网等领域取得了亮眼的成绩。然而，传统区块链采用单链结构，每个区块仅存储上一个区块的哈希信息，在需要应对大吞吐量的工况下，容易因链条过长导致性能下降；此外，在应用于车联网这一场景下时，由于区块并未按照地理位置存储，而车辆节点需要关心的信息大多来自临近区域的区块数据，故可能需要耗费诸多不必要的查询开销。
 
-为解决上述两个问题，“树状区块链”应运而生。在树状区块链中，区块被分为创世块、分支区块和叶子区块三种。叶子区块和传统的区块链并无太大差异；分支区块则负责将数个叶子区块组织起来，按照叶子区块所代表的地理位置，结合GeoHash编码技术形成类似于字典树的树状结构；创世块和分支区块类似，但它没有父链指针。由于树状结构相比单链结构的深度更小，且采用了与地理位置相关的GeoHash进行分支构造，故树状区块链有望为上述两个问题提供合理的解决方案。
+为解决上述两个问题，“树状区块链”应运而生。在树状区块链中，区块被分为创世块、分支区块和叶子区块三种。叶子区块和传统的区块链并无太大差异；分支区块则负责将数个叶子区块组织起来，按照叶子区块所代表的地理位置，结合GeoHash编码技术形成多叉树树结构；创世块和分支区块类似，但它没有父链指针。由于树状结构相比单链结构的深度更小，且采用了与地理位置相关的GeoHash进行分支构造，故树状区块链有望为上述两个问题提供合理的解决方案。
 
-本课题首先研究树状区块链相较传统链式区块链的优势与局限性；其次，以出租车调度系统为背景，测试树状区块链和传统链式区块链在运行该调度系统时的性能表现差异；最后，讨论将现有树状区块链的运行平台由以太坊支持的以太坊虚拟机（EVM）迁移至兼容性更广、性能更佳的Web Assembly平台上的优势及可行性，并进行部分迁移工作加以佐证。
+本课题首先研究树状区块链相较传统单链结构区块链的优势与局限性；其次，对实验室已有工作——基于区块链的出租车调度系统进行复现，验证其可用性；对于树状区块链引入的特色功能——跨子链转账，设计系统的性能测试，并建立简单的数学模型，对开发者在不同应用场景下对树状区块链和传统单链结构区块链的选择提供建议。在上述工作的基础上，以出租车调度系统为背景，测试树状区块链和传统链式区块链在运行该调度系统时的性能表现差异。最后，提出一种使用Rust编程语言重写树状区块链的可行方案，讨论将现有树状区块链的开发平台由以太坊开发平台迁移至更加优秀Substrate开发框架的优势及可行性，并进行部分树状区块链的功能特性的重写工作加以佐证。
 
 \end{abstract}
 
@@ -35,6 +35,6 @@ In 2008, with the release of Satoshi Nakamoto's "Bitcoin: A Peer-to-Peer Electro
 
 To solve the above two problems, "tree-like blockchain" came into being. In a tree-like blockchain, blocks are divided into genesis blocks, branch blocks and leaf blocks. The leaf block is not very different from the traditional blockchain, while the branch block is responsible for organizing several leaf blocks, according to the geographical location of the leaf block, combined with GeoHash coding technology to form a tree structure similar to dictionary tree. The major difference between the branch block and the genesis block is that a genesis block does not have the so-called "parent block pointer". Due to the smaller depth of the tree structure compared to the single chain structure and the use of GeoHash for branch construction, it is expected to provide a reasonable solution to the above two problems.
 
-Based on the laboratory's existing work "tree-like blockchain", this topic studies the advantages and limitations of tree blockchain compared with traditional blockchain. Taking the taxi dispatching system as the background, we test the performance differences between the tree blockchain and the traditional blockchain when running the dispatching system. Finally, the advantages and feasibility of migrating the Ethereum Virtual Machine (EVM) supported by Ethereum to the Web Assembly platform with wider compatibility and better performance are discussed, and some migration work is carried out to prove it.
+This project first studies the advantages and limitations of tree-like blockchain compared to traditional single-chain structured blockchain; secondly, it reproduces the existing work in the laboratory - a taxi dispatch system based on blockchain, to verify its usability; for the special function introduced by the tree-like blockchain - cross-sub-chain transfer, design system performance testing, and establish a simple mathematical model to provide suggestions for developers to choose between tree-like blockchain and traditional single-chain structured blockchain in different application scenarios. On the basis of the above work, taking the taxi dispatch system as the background, test the performance difference between tree-like blockchain and traditional chain-like blockchain when running this dispatch system. Finally, propose a feasible plan to rewrite tree-like blockchain using Rust programming language, discuss the advantages and feasibility of migrating the existing tree-like blockchain development platform from Ethereum development platform to a better Substrate development framework, and partially rewrite some functional features of tree-like blockchain to provide evidence.
 
 \end{abstractEn}
