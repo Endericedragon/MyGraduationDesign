@@ -25,7 +25,8 @@
 
 % 开启盲审格式 blindPeerReview=true (如：[type=bachelor,blindPeerReview=true])
 
-\documentclass[type=bachelor]{bithesis}
+\documentclass[type=bachelor, blindPeerReview=true]{bithesis}
+% \documentclass[type=bachelor]{bithesis}
 
 \BITSetup{
   cover = {
@@ -40,16 +41,16 @@
     % 想要删除某项封面信息，直接删除该项即可。
     % 想要让某项封面信息留空（但是保留下划线），请设置为空字符串。
     % 如需要换行，则用 “\\” 符号分割。
-    title = 树状区块链测试与改进,
-    titleEn = {The Testing and Enhancements of Tree-Like Blockchain},
+    title = 树状区块链性能测试与基于Rust的重写,
+    titleEn = {The Testing of Tree-Like Blockchain and Rust-Based Rewriting},
     school = 计算机学院,
     major = 计算机科学与技术,
     class = 07111905,
     author = 傅泽,
     studentId = 1120192062,
     supervisor = 陆慧梅,
-    keywords = {北京理工大学；本科生；毕业设计（论文）},
-    keywordsEn = {BIT; Undergraduate; Graduation Project (Thesis)},
+    keywords = {区块链; 车联网; 测试},
+    keywordsEn = {Blockchain; Internet of Vehicle; Testing},
     % 如果你的毕设为校外毕设，请将下面这一行语句解除注释（删除第一个百分号字符）并填写你的校外毕设导师名字
     % externalSupervisor = 左偏树,
   },

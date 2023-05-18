@@ -18,7 +18,9 @@
 % The Current Maintainer of this work is Feng Kaiyu.
 %%
 
-\chapter{从以太坊到Substrate——使用Rust重写树状区块链}
+\chapter{使用Rust重写树状区块链}
+
+\section{从以太坊到Substrate——基于Rust重写的改进思路简析}
 
 树状区块链是在以太坊官方客户端Go-Ethereum的源代码上修改而来，因此，虽然在结构上做出了很大的调整，它也继承了许多Go-Ethereum的特点，例如共识算法和EVM虚拟机等，其性能表现也依然受制于Go-Ethereum。从整体上评估，本文第三章通过统计学方法，验证了以太坊顺序串行执行交易的特点，这样的执行策略使得以太坊在面对高并发请求时的处理效率不尽如人意；从局部评估，研究\cite{privateChainConsensus}表明，以太坊所使用的共识算法之一——基于工作量的证明（Proof of Work），其性能表现已落后其他更先进的算法。然而，以太坊并未在源代码层面留有太多的可扩展空间，这也意味着许多诸如更换共识算法，修改交易执行逻辑等的自定义修改在实践时困难重重，限制了在以太坊平台改良优化的空间。因此，另寻一全新的平台，使用全新的工具重写树状区块链，方能绕过以太坊开发平台的短板，有效提升树状区块链的性能表现。在本章中，笔者将选择基于Rust编程语言的Substrate区块链框架作为目标开发平台，介绍使用Rust编程语言重写树状区块链的相关内容。
 
@@ -31,7 +33,7 @@ Substrate\cite{substrateHome}由Parity Technologies推出，是一套基于Rust�
 具体地，Substrate在设计时严格遵循了三点原则：
 
 \begin{itemize}
-    \item 将Rust编程语言作为代码库的核心编程语言。Rust是一种系统编程语言，它具有高性能、安全和并发性的优势。通过引入所有权、借用和生命周期等概念，Rust可以在编译时检查并确保内存安全。Rust还支持函数式、并发和泛型编程的特性，使得代码更加灵活和可复用。虽然Rust语言的学习曲线较为陡峭，但其极快的速度，极具辨识度的内存管理方式，灵活的抽象能力，以及可编译为WebAssembly的特点使它成为操作系统、嵌入式系统、网络编程等领域极受欢迎的选择；
+    \item 将Rust编程语言作为代码库的核心编程语言。Rust是一种系统编程语言，它具有高性能、安全和并发性的优势\cite{rust}。通过引入所有权、借用和生命周期等概念，Rust可以在编译时检查并确保内存安全。Rust还支持函数式、并发和泛型编程的特性，使得代码更加灵活和可复用。虽然Rust语言的学习曲线较为陡峭，但其极快的速度，极具辨识度的内存管理方式，灵活的抽象能力，以及可编译为WebAssembly的特点使它成为操作系统、嵌入式系统、网络编程等领域极受欢迎的选择\cite{borgsmuller2021rust}；
     \item 将WebAssembly作为应用程序逻辑的执行环境。WebAssembly是一种新型代码，由万维网联盟创建，可从Rust、C、C++等语言编译获得，且受到多种JavaScript引擎的广泛支持，具有良好的兼容性\cite{wasmIntro}。Substrate的易升级性也建立于WebAssembly的基础之上：它将区块链的具体业务逻辑编译为WebAssembly字节码，并存储于区块链的数据存储区中，用户可以像发起普通交易一样发起一个申请修改链上存储的WebAssembly字节码的交易，从而便利地更新升级区块链系统；
     \item 广泛使用分层抽象、泛型实现和灵活的API作为主要的编码实践，并将库分离为不同的体系结构组件。在核心功能方面，Substrate官方提供了许多不同的实现，例如数据库层的RocksDB和ParityDB，共识层的AURA引擎和Grandpa引擎等，可以任由开发者选择；在应用功能方面，Substrate允许开发者调用官方已开发妥当的模块pallet为他们的区块链添加自定义功能，例如保存并处理账号信息的balances模块，和管理智能合约的contracts模块；不仅如此，Substrate也提供了这些模块的实现源代码，开发者可以自行下载并进行修改后引入区块链，实现功能的定制化。这一设计原则，赋予了Substrate极好的可扩展性，便于开发人员依据实际需要进行功能增删和优化改进等操作。
 \end{itemize}
@@ -64,7 +66,7 @@ Substrate\cite{substrateHome}由Parity Technologies推出，是一套基于Rust�
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/树状区块链区块结构.png}
+    \includegraphics[width=0.6\textwidth]{images/树状区块链区块结构.png}
     \caption{树状区块链区块结构}\label{树状链区块结构示意图} % label 用来在文中索引
 \end{figure}
 
@@ -346,4 +348,4 @@ rustup target add wasm32-unknown-unknown --toolchain nightly-2023-03-21
 
 \section{本章小结}
 
-本章首先比较了Substrate相较以太坊的优势并介绍了Substrate的特点，阐述了树状区块链的改进思路，即将其从以太坊平台迁移至扩展性更强，综合性能更佳的Substrate开发框架。其次，介绍了Substrate的节点架构，其可分为客户端外部节点和WebAssembly运行时环境两大板块，分别负责不同类型的事务处理。最后，介绍了使用节点模板进行运行时开发的方法，并成功将树状区块链的部分功能特性迁移到节点模板上，证明了树状区块链改进思路的可行性。
+本章首先比较了Substrate相较以太坊的优势并介绍了Substrate的特点，阐述了树状区块链的改进思路，即将其从以太坊平台迁移至扩展性更强，综合性能更佳的Substrate开发框架。其次，介绍了Substrate的节点架构，其可分为客户端外部节点和WebAssembly运行时环境两大板块，分别负责不同类型的事务处理。最后，介绍了使用节点模板进行运行时开发的方法，并成功将树状区块链的部分功能特性迁移到节点模板上，证明了Substrate具有强大的可扩展性，未来可以作为理想的树状区块链所依托的基础环境。
