@@ -330,7 +330,7 @@ rustup target add wasm32-unknown-unknown --toolchain nightly-2023-03-21
 
 使用相似的方法，调用balances模块的\verb|transfer_with_position()|方法，令账号ALICE在wx4111c位置处发起转账，如图5-5所示。
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{images/transWithPos.png}
     \caption{调用带位置信息的转账方法}\label{调用带位置信息的转账方法} % label 用来在文中索引
@@ -338,7 +338,7 @@ rustup target add wasm32-unknown-unknown --toolchain nightly-2023-03-21
 
 随后，查询转账发起人ALICE的位置信息，获得图5-6所示的输出。其中，position字段的值0x77783431313163即为ALICE的新位置Geohash编码wx4111c的16进制表示。
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{images/transWithPosResult.png}
     \caption{转账发起人位置已更新}\label{转账发起人位置已更新} % label 用来在文中索引
