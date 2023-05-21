@@ -145,22 +145,22 @@ Substrate官方提供了一份开源的节点模板\footnote{\url{https://github
 使用如下指令安装包含git、make、clang、curl工具包：
 
 \begin{lstlisting}[caption={安装工具包}, label={lst:安装工具包}]
-sudo apt install build-essential
+    sudo apt install build-essential
 \end{lstlisting}
 
 使用如下指令安装Rust工具链：
 
 \begin{lstlisting}[caption={安装Rust工具链}, label={lst:安装Rust工具链}]
-sudo apt install --assume-yes git clang curl libssl-dev protobuf-compiler
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-source \$HOME/.cargo/env  # 刷新环境变量
+    sudo apt install --assume-yes git clang curl libssl-dev protobuf-compiler
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    source \$HOME/.cargo/env  # 刷新环境变量
 
-rustup default stable
-rustup update  # 更新rust版本为最新的稳定版
+    rustup default stable
+    rustup update  # 更新rust版本为最新的稳定版
 
-# 安装rust nightly的2023-03-21前发布的最新版
-rustup update nightly-2023-03-21
-rustup target add wasm32-unknown-unknown --toolchain nightly-2023-03-21
+    # 安装rust nightly的2023-03-21前发布的最新版
+    rustup update nightly-2023-03-21
+    rustup target add wasm32-unknown-unknown --toolchain nightly-2023-03-21
 \end{lstlisting}
 
 \subsection{使用节点模板进行开发}
