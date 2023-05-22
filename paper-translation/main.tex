@@ -82,8 +82,18 @@
 % 参考文献引用文件位于 misc/ref.bib
 \addbibresource{misc/ref.bib}
 
+\newcommand\BackgroundPicture{%
+  \put(0,0){%
+    \parbox[b][\paperheight]{\paperwidth}{%
+      \vfill
+      \centering%
+      \includegraphics[width=\paperwidth]{images/background.pdf}
+      \vfill
+    }}}
+
 % 文档开始
 \begin{document}
+\AddToShipoutPicture{\BackgroundPicture}
 
 % 标题页面：如无特殊需要，本部分无需改动
 % \input{misc/0_cover.tex}
@@ -101,9 +111,9 @@
 \mainmatter
 
 % 第一章
-\input{chapters/1_chapter1.tex}
+\input{chapters/1_foreign.tex}
 % 在这里添加第二章、第三章……TeX 文件的引用
-% \input{chapters/2_chapter2.tex}
+\input{chapters/2_chinese.tex}
 % \input{chapters/3_chapter3.tex}
 
 % 后置部分

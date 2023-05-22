@@ -115,9 +115,9 @@ geth1 --identity "MyEth" --rpc --rpcaddr 127.0.0.1  --rpcport "8545" --rpccorsdo
 
 \subsection{配置前端并进行可用性测试}
 
-出租车调度系统的前端由Vue 2写成，在启动之前尚需一些配置方可正常运行。首先，需要修改\verb|investigation-cjzhuang2020/cjz_underg_2021_09|目录下的一系列文件，各个文件的文件名及其内容如下表所示：
+出租车调度系统的前端由Vue 2写成，在启动之前尚需一些配置方可正常运行。首先，需要修改\verb|investigation-cjzhuang2020/cjz_underg_2021_09|目录下的一系列文件，各个文件的文件名及其内容如表\ref{前端配置文件功能}所示：
 
-\begin{table}[htbp]
+\begin{table}[H]
     \linespread{1.5}
     \zihao{5}
     \centering
@@ -133,27 +133,27 @@ geth1 --identity "MyEth" --rpc --rpcaddr 127.0.0.1  --rpcport "8545" --rpccorsdo
     \end{tabular}
 \end{table}
 
-完成以上配置后，即可在区块链中开始挖矿，启动\verb|vehicle_test.py|，程序将打开浏览器并自动操作，可观察到如下图的字样：
+完成以上配置后，即可在区块链中开始挖矿，启动\verb|vehicle_test.py|，程序将打开浏览器并自动操作，可观察到如图\ref{司机的初始化}的字样：
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{images/vehicleInit.png}
     \caption{司机的初始化}\label{司机的初始化} % label 用来在文中索引
 \end{figure}
 
-此时启动\verb|passenger_test.py|，程序将启动另一个浏览器窗口操作，此时需要在司机端浏览器窗口选择接客与否：
+此时启动\verb|passenger_test.py|，程序将启动另一个浏览器窗口操作，此时司机端可以选择接客与否，如图\ref{司机手动接客}。
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{images/pickUp.png}
     \caption{司机手动接客}\label{司机手动接客} % label 用来在文中索引
 \end{figure}
 
-按下pickUp按钮，程序将继续自动运行，直至看到如下输出，调度成功：
+按下pickUp按钮，程序将继续自动运行，直至看到如图\ref{司机手动接乘客抵达并支付客}输出，调度成功：
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{images/passengerPay.png}
+    \includegraphics[width=0.7\textwidth]{images/passengerPay.png}
     \caption{乘客抵达并支付}\label{司机手动接乘客抵达并支付客} % label 用来在文中索引
 \end{figure}
 
